@@ -261,5 +261,13 @@ class SwipeControlsHostActivity : Activity() {
         fun allowSwipeChangeVideo(original: Boolean): Boolean =
             // Feature can cause crashing if forced in newer targets.
             !VersionCheckPatch.IS_20_22_OR_GREATER && Settings.SWIPE_CHANGE_VIDEO.get()
+
+        /**
+         * Injection point.
+         */
+        @Suppress("unused")
+        @JvmStatic
+        fun disableFullscreenDragGesture(): Boolean =
+            PlayerType.current.isMaximizedOrFullscreen()
     }
 }

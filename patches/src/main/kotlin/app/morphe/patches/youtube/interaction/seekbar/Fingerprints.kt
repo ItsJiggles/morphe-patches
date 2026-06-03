@@ -55,6 +55,18 @@ internal object DisableFastForwardGestureFingerprint : Fingerprint(
     }
 )
 
+internal object DisablePlayerDragGesturesFingerprint : Fingerprint(
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    returnType = "V",
+    parameters = listOf("Ljava/lang/Object;"),
+    filters = listOf(
+        literal(161611),
+        literal(106927),
+        literal(161574),
+        literal(161575),
+    )
+)
+
 internal object OnTouchEventHandlerFingerprint : Fingerprint(
     name = "onTouchEvent",
     accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.PUBLIC),

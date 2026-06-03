@@ -1,5 +1,6 @@
 package app.morphe.patches.youtube.interaction.swipecontrols
 
+import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.patch.bytecodePatch
 import app.morphe.patcher.patch.resourcePatch
 import app.morphe.patcher.util.proxy.mutableTypes.MutableMethod.Companion.toMutable
@@ -8,6 +9,7 @@ import app.morphe.patches.shared.misc.settings.preference.ListPreference
 import app.morphe.patches.shared.misc.settings.preference.NonInteractivePreference
 import app.morphe.patches.shared.misc.settings.preference.SwitchPreference
 import app.morphe.patches.shared.misc.settings.preference.TextPreference
+import app.morphe.patches.youtube.interaction.seekbar.DisablePlayerDragGesturesFingerprint
 import app.morphe.patches.youtube.misc.extension.sharedExtensionPatch
 import app.morphe.patches.youtube.misc.playertype.playerTypeHookPatch
 import app.morphe.patches.youtube.misc.playservice.is_20_34_or_greater
@@ -162,5 +164,17 @@ val swipeControlsPatch = bytecodePatch(
                 )
             }
         }
+
+        DisablePlayerDragGesturesFingerprint.method.addInstructions(
+            0,
+            """
+                invoke-static { }, $EXTENSION_CLASS->disableFullscreenDragGesture()Z
+                move-result v0
+                if-eqz v0, :disable_drag_gesture
+                return-void
+                :disable_drag_gesture
+                nop
+            """
+        )
     }
 }
