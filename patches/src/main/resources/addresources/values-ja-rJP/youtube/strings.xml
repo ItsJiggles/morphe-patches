@@ -348,9 +348,34 @@ YouTube Doodle が表示されていると、カスタマイズしたヘッダ�
   <string name="morphe_dismiss_player_not_available_toast">動画 ID が利用できません。手動で動画を再度開いてください</string>
   <!-- interaction.savetowatchlater.saveToWatchLaterPatch -->
   <string name="morphe_save_to_watch_later_button_title">「後で見るに保存」ボタンを表示</string>
+  <string name="morphe_save_to_watch_later_button_summary">タップすると、動画を「後で見る」に保存します。長押しするとキュー オプションを表示します</string>
   <string name="morphe_save_to_watch_later_success_toast">動画を「後で見る」に保存しました</string>
   <string name="morphe_save_to_watch_later_already_exists_toast">この動画は既に「後で見る」に保存されています</string>
   <string name="morphe_save_to_watch_later_error_toast">この動画は「後で見る」に保存できません</string>
+  <string name="morphe_queue_restore_title">セッションをまたいでキューを保持</string>
+  <string name="morphe_queue_restore_summary">アプリを終了または再起動してもキューを保持します</string>
+  <string name="morphe_queue_manager_check_failed_auth">ログインしていません</string>
+  <string name="morphe_queue_manager_check_failed_playlist_id">プレイリスト ID がありません</string>
+  <string name="morphe_queue_manager_check_failed_queue">キューが空です</string>
+  <string name="morphe_queue_manager_check_failed_video_id">動画 ID がありません</string>
+  <string name="morphe_queue_manager_check_failed_generic">エラー: %s</string>
+  <string name="morphe_queue_manager_fetch_failed_add">キューへの追加に失敗しました</string>
+  <string name="morphe_queue_manager_fetch_failed_create">キューの作成に失敗しました</string>
+  <string name="morphe_queue_manager_fetch_failed_remove">キューからの削除に失敗しました</string>
+  <string name="morphe_queue_manager_fetch_failed_save">キューの保存に失敗しました</string>
+  <string name="morphe_queue_manager_fetch_succeeded_add">キューに追加しました</string>
+  <string name="morphe_queue_manager_fetch_succeeded_create">キューを作成しました</string>
+  <string name="morphe_queue_manager_fetch_succeeded_remove">キューから削除しました</string>
+  <string name="morphe_queue_manager_fetch_succeeded_save">キューを %s に保存しました</string>
+  <string name="morphe_queue_manager_add_to_queue">キューに追加</string>
+  <string name="morphe_queue_manager_add_to_queue_and_open_queue">キューに追加して開く</string>
+  <string name="morphe_queue_manager_add_to_queue_and_play_video">キューに追加して再生</string>
+  <string name="morphe_queue_manager_add_to_queue_and_reload_video">動画をキューに追加して再読み込み</string>
+  <string name="morphe_queue_manager_remove_from_queue">キューから削除</string>
+  <string name="morphe_queue_manager_remove_from_queue_and_open_queue">動画をキューから削除してキューを開く</string>
+  <string name="morphe_queue_manager_remove_from_queue_and_reload_video">動画をキューから削除して再読み込み</string>
+  <string name="morphe_queue_manager_open_queue">キューを開く</string>
+  <string name="morphe_queue_manager_save_queue">キューをプレイリストとして保存</string>
   <!-- interaction.livering.openChannelOfLiveAvatarPatch -->
   <string name="morphe_open_channel_of_live_avatar_title">ライブ配信中のチャンネル アイコンからチャンネルを開く</string>
   <string name="morphe_open_channel_of_live_avatar_summary">ライブ配信中のチャンネル アイコンをタップしたときにライブ配信ではなくチャンネル ページを開きます</string>
@@ -633,7 +658,7 @@ YouTube Doodle が表示されていると、カスタマイズしたヘッダ�
   <!-- layout.hide.shorts.hideShortsComponentsPatch -->
   <string name="morphe_shorts_player_screen_title">ショート プレーヤー</string>
   <string name="morphe_shorts_player_screen_summary">ショート プレーヤーに表示するコンポーネントを設定します</string>
-  <string name="morphe_hide_shorts_category_title">「ショート」を非表示</string>
+  <string name="morphe_hide_shorts_category_title">ショートを非表示</string>
   <string name="morphe_hide_shorts_channel_title">チャンネル ページで非表示</string>
   <!-- 'Home' should be translated using the same localized wording YouTube displays for the tab. -->
   <string name="morphe_hide_shorts_home_title">ホームフィードと関連動画で非表示</string>
