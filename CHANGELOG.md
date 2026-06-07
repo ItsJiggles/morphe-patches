@@ -1,9 +1,47 @@
+## [1.31.0-dev.8](https://github.com/MorpheApp/morphe-patches/compare/v1.31.0-dev.7...v1.31.0-dev.8) (2026-06-07)
+
+### 🐛 Bug Fixes
+
+* **YouTube - Save to watch later:** Error toast is shown if app is minimized then resumed before adding to playlist ([#1670](https://github.com/MorpheApp/morphe-patches/issues/1670)) ([18ac572](https://github.com/MorpheApp/morphe-patches/commit/18ac572c8c56f3eeac1849b31c0204bc76cdc901))
+* **YouTube Music - Theme:** Apply "Material You" to notification dot ([#1657](https://github.com/MorpheApp/morphe-patches/issues/1657)) ([0355a17](https://github.com/MorpheApp/morphe-patches/commit/0355a17ac8ed19b161572ec2ea2b62d86bdb6803))
+
+### ✨ New Features
+
+* **YouTube - SponsorBlock:** Add channel whitelist ([#1661](https://github.com/MorpheApp/morphe-patches/issues/1661)) ([6d96cee](https://github.com/MorpheApp/morphe-patches/commit/6d96ceecb82c290b2d2545212bb7b80762fc98dc))
+* **YouTube Music:** Add `Enable swipe to dismiss miniplayer` patch ([#1420](https://github.com/MorpheApp/morphe-patches/issues/1420)) ([4795cc4](https://github.com/MorpheApp/morphe-patches/commit/4795cc4803cee0dc8aeefb0c0b6e968fff14698c))
+
+### 🚀 Updated App Support
+
+* **Reddit:** Add experimental support for `2026.23.0` ([2d24e8d](https://github.com/MorpheApp/morphe-patches/commit/2d24e8d9ee109a83ac4ed774de5848aca38db952))
+
+## [1.31.0-dev.7](https://github.com/MorpheApp/morphe-patches/compare/v1.31.0-dev.6...v1.31.0-dev.7) (2026-06-06)
+
+### 🐛 Bug Fixes
+
+* **YouTube - Exit fullscreen mode:** Shorts regular player does not exit fullscreen mode ([2fb96a6](https://github.com/MorpheApp/morphe-patches/commit/2fb96a6918775d344c3208871e98a4c87805493c))
+* **YouTube - Save to watch later:** Correctly save queue into selected playlist ([a8d1732](https://github.com/MorpheApp/morphe-patches/commit/a8d1732d41d4e7f007e8d1d6f95dc67d8ccdb6b5))
+
+### ✨ New Features
+
+* **YouTube - Hide layout components:** Add "Hide snackbar" setting ([#1658](https://github.com/MorpheApp/morphe-patches/issues/1658)) ([0e27c61](https://github.com/MorpheApp/morphe-patches/commit/0e27c611042dd75cf9c8c730df091eb440ea815b))
+* **YouTube - Save to watch later:** Add option to swap Save and Queue actions ([#1664](https://github.com/MorpheApp/morphe-patches/issues/1664)) ([db7cc5b](https://github.com/MorpheApp/morphe-patches/commit/db7cc5becce5a4893faef9f95deb4134114b213c))
+
+## [1.31.0-dev.6](https://github.com/MorpheApp/morphe-patches/compare/v1.31.0-dev.5...v1.31.0-dev.6) (2026-06-05)
+
+### ✨ New Features
+
+* **YouTube - Save to watch later:** Add playlist queue manager ([#1648](https://github.com/MorpheApp/morphe-patches/issues/1648)) ([a5265ac](https://github.com/MorpheApp/morphe-patches/commit/a5265ac85cd758afc68172b6d073fc8e0ca4fba6))
+
+### 🚀 Updated App Support
+
+* **YouTube:** Add experimental support for `21.23.480` ([9e0d0dd](https://github.com/MorpheApp/morphe-patches/commit/9e0d0dd66e73b4d361926637f2906237d1d0ad1d))
+
 ## [1.31.0-dev.5](https://github.com/MorpheApp/morphe-patches/compare/v1.31.0-dev.4...v1.31.0-dev.5) (2026-06-04)
 
 ### 🐛 Bug Fixes
 
-* **YouTube - Miniplayer:** Restore play/pause icons for minimal miniplayer on 21.17+ ([#1644](https://github.com/MorpheApp/morphe-patches/issues/1644)) ([9f4624f](https://github.com/MorpheApp/morphe-patches/commit/9f4624f64b701d7610c34d78a41f2288cf2fcc74))
-* **YouTube - Sanitize sharing links:** Fix Copy video URL button having tracking query parameters ([23fa3b0](https://github.com/MorpheApp/morphe-patches/commit/23fa3b01f56e282a1dc6d171e2b936bd5020d27e))
+* **YouTube - Miniplayer:** Restore play/pause icons for minimal miniplayer on `21.17+` ([#1644](https://github.com/MorpheApp/morphe-patches/issues/1644)) ([9f4624f](https://github.com/MorpheApp/morphe-patches/commit/9f4624f64b701d7610c34d78a41f2288cf2fcc74))
+* **YouTube - Sanitize sharing links:** Fix "Copy video URL button" having tracking query parameters ([23fa3b0](https://github.com/MorpheApp/morphe-patches/commit/23fa3b01f56e282a1dc6d171e2b936bd5020d27e))
 
 ## [1.31.0-dev.4](https://github.com/MorpheApp/morphe-patches/compare/v1.31.0-dev.3...v1.31.0-dev.4) (2026-06-03)
 

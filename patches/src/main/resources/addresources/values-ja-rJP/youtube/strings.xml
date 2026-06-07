@@ -131,6 +131,7 @@ YouTube Doodle が表示されていると、カスタマイズしたヘッダ�
   <string name="morphe_hide_live_chat_replay_button_title">「チャットのリプレイ」ボタンを非表示</string>
   <string name="morphe_hide_live_chat_replay_button_summary">全画面表示モードでの「チャットのリプレイ」ボタンを非表示にします</string>
   <string name="morphe_hide_medical_panels_title">医療情報パネルを非表示</string>
+  <string name="morphe_hide_snackbar_title">スナックバー通知を非表示</string>
   <string name="morphe_hide_subscribers_community_guidelines_title">チャンネル登録者のガイドラインを非表示</string>
   <string name="morphe_hide_timed_reactions_title">Timed Reaction を非表示</string>
   <string name="morphe_hide_timed_reactions_summary">コメント欄やライブ配信のチャット欄で絵文字を使ってリアクションする機能 (ハート アイコン ボタン) を非表示にします</string>
@@ -348,9 +349,36 @@ YouTube Doodle が表示されていると、カスタマイズしたヘッダ�
   <string name="morphe_dismiss_player_not_available_toast">動画 ID が利用できません。手動で動画を再度開いてください</string>
   <!-- interaction.savetowatchlater.saveToWatchLaterPatch -->
   <string name="morphe_save_to_watch_later_button_title">「後で見るに保存」ボタンを表示</string>
+  <string name="morphe_save_to_watch_later_button_summary">タップすると、動画を「後で見る」に保存します。長押しするとキュー オプションを表示します</string>
   <string name="morphe_save_to_watch_later_success_toast">動画を「後で見る」に保存しました</string>
   <string name="morphe_save_to_watch_later_already_exists_toast">この動画は既に「後で見る」に保存されています</string>
   <string name="morphe_save_to_watch_later_error_toast">この動画は「後で見る」に保存できません</string>
+  <string name="morphe_queue_restore_title">セッションをまたいでキューを保持</string>
+  <string name="morphe_queue_restore_summary">アプリを終了または再起動してもキューを保持します</string>
+  <string name="morphe_swap_save_and_queue_actions_title">「後で見るに保存」ボタンの動作を入れ替える</string>
+  <string name="morphe_swap_save_and_queue_actions_summary">タップするとキュー オプションを表示します。長押しすると、動画を「後で見る」に保存します。</string>
+  <string name="morphe_queue_manager_check_failed_auth">ログインしていません</string>
+  <string name="morphe_queue_manager_check_failed_playlist_id">プレイリスト ID がありません</string>
+  <string name="morphe_queue_manager_check_failed_queue">キューが空です</string>
+  <string name="morphe_queue_manager_check_failed_video_id">動画 ID がありません</string>
+  <string name="morphe_queue_manager_check_failed_generic">エラー: %s</string>
+  <string name="morphe_queue_manager_fetch_failed_add">キューへの追加に失敗しました</string>
+  <string name="morphe_queue_manager_fetch_failed_create">キューの作成に失敗しました</string>
+  <string name="morphe_queue_manager_fetch_failed_remove">キューからの削除に失敗しました</string>
+  <string name="morphe_queue_manager_fetch_failed_save">キューの保存に失敗しました</string>
+  <string name="morphe_queue_manager_fetch_succeeded_add">キューに追加しました</string>
+  <string name="morphe_queue_manager_fetch_succeeded_create">キューを作成しました</string>
+  <string name="morphe_queue_manager_fetch_succeeded_remove">キューから削除しました</string>
+  <string name="morphe_queue_manager_fetch_succeeded_save">キューを %s に保存しました</string>
+  <string name="morphe_queue_manager_add_to_queue">キューに追加</string>
+  <string name="morphe_queue_manager_add_to_queue_and_open_queue">キューに追加して開く</string>
+  <string name="morphe_queue_manager_add_to_queue_and_play_video">キューに追加して再生</string>
+  <string name="morphe_queue_manager_add_to_queue_and_reload_video">追加して動画を再読み込み</string>
+  <string name="morphe_queue_manager_remove_from_queue">キューから削除</string>
+  <string name="morphe_queue_manager_remove_from_queue_and_open_queue">削除してキューを開く</string>
+  <string name="morphe_queue_manager_remove_from_queue_and_reload_video">削除して動画を再読み込み</string>
+  <string name="morphe_queue_manager_open_queue">キューを開く</string>
+  <string name="morphe_queue_manager_save_queue">キューをプレイリストとして保存</string>
   <!-- interaction.livering.openChannelOfLiveAvatarPatch -->
   <string name="morphe_open_channel_of_live_avatar_title">ライブ配信中のチャンネル アイコンからチャンネルを開く</string>
   <string name="morphe_open_channel_of_live_avatar_summary">ライブ配信中のチャンネル アイコンをタップしたときにライブ配信ではなくチャンネル ページを開きます</string>
@@ -633,7 +661,7 @@ YouTube Doodle が表示されていると、カスタマイズしたヘッダ�
   <!-- layout.hide.shorts.hideShortsComponentsPatch -->
   <string name="morphe_shorts_player_screen_title">ショート プレーヤー</string>
   <string name="morphe_shorts_player_screen_summary">ショート プレーヤーに表示するコンポーネントを設定します</string>
-  <string name="morphe_hide_shorts_category_title">「ショート」を非表示</string>
+  <string name="morphe_hide_shorts_category_title">ショートを非表示</string>
   <string name="morphe_hide_shorts_channel_title">チャンネル ページで非表示</string>
   <!-- 'Home' should be translated using the same localized wording YouTube displays for the tab. -->
   <string name="morphe_hide_shorts_home_title">ホームフィードと関連動画で非表示</string>
@@ -807,6 +835,19 @@ YouTube Doodle が表示されていると、カスタマイズしたヘッダ�
   <string name="morphe_sb_general_uuid_invalid">非公開ユーザー ID は最低 30 文字必要です</string>
   <string name="morphe_sb_general_api_url">API URL を変更</string>
   <string name="morphe_sb_general_api_url_summary">SponsorBlock がサーバーとの通信で使用するアドレス</string>
+  <string name="morphe_sb_channel_whitelist">チャンネル ホワイトリスト</string>
+  <string name="morphe_sb_channel_whitelist_summary">ホワイトリストに登録されているチャンネルでは SponsorBlock を無効にします</string>
+  <string name="morphe_sb_channel_whitelist_dialog_title">チャンネル ホワイトリスト</string>
+  <string name="morphe_sb_channel_whitelist_current_channel">現在のチャンネル:</string>
+  <string name="morphe_sb_channel_whitelist_add">ホワイトリストに追加</string>
+  <string name="morphe_sb_channel_whitelist_remove">解除</string>
+  <string name="morphe_sb_channel_whitelist_channels_header">ホワイトリストに登録中のチャンネル</string>
+  <string name="morphe_sb_channel_whitelist_empty">ホワイトリストに登録されているチャンネルはありません</string>
+  <string name="morphe_sb_channel_whitelist_channel_added">チャンネルをホワイトリストに追加しました</string>
+  <string name="morphe_sb_channel_whitelist_channel_removed">チャンネルをホワイトリストから削除しました</string>
+  <string name="morphe_sb_toast_on_whitelisted_channel">ホワイトリストに登録中のチャンネルの通知</string>
+  <string name="morphe_sb_toast_on_whitelisted_channel_summary">ホワイトリストへの登録によりチャンネルで SponsorBlock が無効になっているときに通知を表示します</string>
+  <string name="morphe_sb_channel_whitelisted_toast">このチャンネルでは SponsorBlock が無効になっています</string>
   <string name="morphe_sb_api_url_reset">API URL をリセットしました</string>
   <string name="morphe_sb_api_url_invalid">API URL が無効です</string>
   <string name="morphe_sb_api_url_changed">API URL を変更しました</string>

@@ -131,6 +131,7 @@ YouTube Doodles를 표시하면 사용자 정의 헤더가 표시되지 않을 �
   <string name="morphe_hide_live_chat_replay_button_title">\'실시간 채팅 다시보기\' 버튼 숨기기</string>
   <string name="morphe_hide_live_chat_replay_button_summary">전체 화면 모드에서 \'실시간 채팅 다시보기\' 버튼을 숨깁니다</string>
   <string name="morphe_hide_medical_panels_title">보건 패널 숨기기</string>
+  <string name="morphe_hide_snackbar_title">스낵바 (팝업메시지바) 숨기기</string>
   <string name="morphe_hide_subscribers_community_guidelines_title">구독자를 위한 커뮤니티 가이드라인 숨기기</string>
   <string name="morphe_hide_timed_reactions_title">실시간 이모티콘 리액션 숨기기</string>
   <string name="morphe_hide_timed_reactions_summary">댓글 섹션 및 실시간 채팅에서 이모티콘으로 반응할 수 있는 기능을 숨깁니다</string>
@@ -350,9 +351,36 @@ YouTube Doodles를 표시하면 사용자 정의 헤더가 표시되지 않을 �
   <string name="morphe_dismiss_player_not_available_toast">동영상 ID를 사용할 수 없습니다. 동영상을 수동으로 다시 불러오세요</string>
   <!-- interaction.savetowatchlater.saveToWatchLaterPatch -->
   <string name="morphe_save_to_watch_later_button_title">\'나중에 볼 동영상에 저장\' 버튼 표시하기</string>
+  <string name="morphe_save_to_watch_later_button_summary">버튼을 탭하여 나중에 볼 동영상에 저장할 수 있고, 길게 탭하면 현재 재생목록 옵션이 실행됩니다</string>
   <string name="morphe_save_to_watch_later_success_toast">동영상을 \'나중에 볼 동영상\' 재생목록에 성공적으로 저장하였습니다</string>
   <string name="morphe_save_to_watch_later_already_exists_toast">이 동영상은 이미 \'나중에 볼 동영상\' 재생목록에 저장되어 있습니다</string>
   <string name="morphe_save_to_watch_later_error_toast">이 동영상을 \'나중에 볼 동영상\' 재생목록에 저장할 수 없습니다</string>
+  <string name="morphe_queue_restore_title">세션 간에 현재 재생목록 유지하기</string>
+  <string name="morphe_queue_restore_summary">앱을 다시 시작한 후에도 현재 재생목록이 유지됩니다</string>
+  <string name="morphe_swap_save_and_queue_actions_title">저장과 현재 재생목록 동작 교환하기</string>
+  <string name="morphe_swap_save_and_queue_actions_summary">버튼을 탭하여 현재 재생목록 옵션을 실행할 수 있고, 길게 탭하면 나중에 볼 동영상에 저장됩니다</string>
+  <string name="morphe_queue_manager_check_failed_auth">로그인하지 않았습니다</string>
+  <string name="morphe_queue_manager_check_failed_playlist_id">재생목록 ID가 없습니다</string>
+  <string name="morphe_queue_manager_check_failed_queue">현재 재생목록이 비어 있습니다</string>
+  <string name="morphe_queue_manager_check_failed_video_id">동영상 ID가 없습니다</string>
+  <string name="morphe_queue_manager_check_failed_generic">실패: %s</string>
+  <string name="morphe_queue_manager_fetch_failed_add">현재 재생목록에 추가할 수 없습니다</string>
+  <string name="morphe_queue_manager_fetch_failed_create">현재 재생목록을 만들 수 없습니다</string>
+  <string name="morphe_queue_manager_fetch_failed_remove">현재 재생목록에서 제거할 수 없습니다</string>
+  <string name="morphe_queue_manager_fetch_failed_save">현재 재생목록을 저장할 수 없습니다</string>
+  <string name="morphe_queue_manager_fetch_succeeded_add">현재 재생목록에 추가하였습니다</string>
+  <string name="morphe_queue_manager_fetch_succeeded_create">현재 재생목록을 만들었습니다</string>
+  <string name="morphe_queue_manager_fetch_succeeded_remove">현재 재생목록에서 제거하였습니다</string>
+  <string name="morphe_queue_manager_fetch_succeeded_save">현재 재생목록을 \'%s\'에 저장하였습니다</string>
+  <string name="morphe_queue_manager_add_to_queue">현재 재생목록에 추가</string>
+  <string name="morphe_queue_manager_add_to_queue_and_open_queue">현재 재생목록에 추가하고 현재 재생목록 열기</string>
+  <string name="morphe_queue_manager_add_to_queue_and_play_video">현재 재생목록에 추가하고 동영상 재생</string>
+  <string name="morphe_queue_manager_add_to_queue_and_reload_video">현재 재생목록에 추가하고 동영상 새로고침</string>
+  <string name="morphe_queue_manager_remove_from_queue">현재 재생목록에서 제거</string>
+  <string name="morphe_queue_manager_remove_from_queue_and_open_queue">현재 재생목록에서 제거하고 현재 재생목록 열기</string>
+  <string name="morphe_queue_manager_remove_from_queue_and_reload_video">현재 재생목록에서 제거하고 동영상 새로고침</string>
+  <string name="morphe_queue_manager_open_queue">현재 재생목록 열기</string>
+  <string name="morphe_queue_manager_save_queue">현재 재생목록을 재생목록에 저장</string>
   <!-- interaction.livering.openChannelOfLiveAvatarPatch -->
   <string name="morphe_open_channel_of_live_avatar_title">라이브 아바타 채널 열기</string>
   <string name="morphe_open_channel_of_live_avatar_summary">채널 아바타를 탭했을 경우에 실시간 스트림이 재생되지 않도록 합니다</string>
@@ -523,7 +551,7 @@ YouTube Doodles를 표시하면 사용자 정의 헤더가 표시되지 않을 �
   <string name="morphe_show_settings_button_index_title">설정 버튼 위치</string>
   <string name="morphe_show_settings_button_type_title">설정 버튼 동작</string>
   <string name="morphe_show_settings_button_type_summary">활성화하면 Morphe 설정이 열리고, 비활성화하면 YouTube 설정을 열립니다</string>
-  <string name="morphe_swap_create_with_notifications_button_title">만들기 버튼과 알림 버튼의 위치를 교환합니다</string>
+  <string name="morphe_swap_create_with_notifications_button_title">만들기 버튼과 알림 버튼의 위치 교환하기</string>
   <string name="morphe_swap_create_with_notifications_button_user_dialog_message">이 설정을 변경해도 적용되지 않는 경우에는 시크릿 모드로 전환해 보세요.</string>
   <string name="morphe_hide_navigation_button_labels_title">하단바 버튼 라벨 숨기기</string>
   <string name="morphe_hide_navigation_bar_title">하단바 숨기기</string>
@@ -808,6 +836,19 @@ YouTube Doodles를 표시하면 사용자 정의 헤더가 표시되지 않을 �
   <string name="morphe_sb_general_uuid_invalid">비공개 사용자 아이디는 30자 이상이어야 합니다</string>
   <string name="morphe_sb_general_api_url">API URL 변경하기</string>
   <string name="morphe_sb_general_api_url_summary">SponsorBlock이 요청을 보낼 서버 URL입니다</string>
+  <string name="morphe_sb_channel_whitelist">채널 화이트리스트</string>
+  <string name="morphe_sb_channel_whitelist_summary">화이트리스트에 추가된 채널에서 SponsorBlock을 비활성화합니다</string>
+  <string name="morphe_sb_channel_whitelist_dialog_title">채널 화이트리스트</string>
+  <string name="morphe_sb_channel_whitelist_current_channel">현재 채널:</string>
+  <string name="morphe_sb_channel_whitelist_add">화이트리스트에 추가</string>
+  <string name="morphe_sb_channel_whitelist_remove">제거</string>
+  <string name="morphe_sb_channel_whitelist_channels_header">화이트리스트 채널</string>
+  <string name="morphe_sb_channel_whitelist_empty">화이트리스트 채널이 없습니다</string>
+  <string name="morphe_sb_channel_whitelist_channel_added">채널을 화이트리스트에 추가하였습니다</string>
+  <string name="morphe_sb_channel_whitelist_channel_removed">채널을 화이트리스트에서 제거하였습니다</string>
+  <string name="morphe_sb_toast_on_whitelisted_channel">화이트리스트 채널 알림</string>
+  <string name="morphe_sb_toast_on_whitelisted_channel_summary">화이트리스트 채널에서 SponsorBlock이 비활성화되었을 경우에 알림을 표시합니다</string>
+  <string name="morphe_sb_channel_whitelisted_toast">이 채널에서 SponsorBlock이 비활성화되었습니다</string>
   <string name="morphe_sb_api_url_reset">API URL 초기화하기</string>
   <string name="morphe_sb_api_url_invalid">잘못된 주소입니다</string>
   <string name="morphe_sb_api_url_changed">API URL을 변경하였습니다</string>
@@ -997,7 +1038,7 @@ YouTube Doodles를 표시하면 사용자 정의 헤더가 표시되지 않을 �
   <string name="morphe_spoof_app_version_target_entry_20_13">20.13.41 - 동영상 플레이어 아래에서 채널 이름을 복원합니다</string>
   <!-- misc.sharesheet.openSystemShareSheetPatch -->
   <string name="morphe_open_system_share_sheet_title">공유 시트 변경하기</string>
-  <string name="morphe_open_system_share_sheet_summary">콘텐츠를 공유할 경우에 앱 기본 공유 시트가 아닌 시스템 공유 시트를 엽니다</string>
+  <string name="morphe_open_system_share_sheet_summary">콘텐츠를 공유할 경우에 앱 기본 공유 시트가 아닌 시스템 공유 시트를 실행합니다</string>
   <!-- layout.music.overrideYouTubeMusicButtonsPatch -->
   <string name="morphe_override_youtube_music_buttons_title">YouTube Music 버튼 재정의하기</string>
   <string name="morphe_override_youtube_music_buttons_summary">Music 버튼을 탭했을 경우에 YouTube Music 앱이 아닌 사용자가 사용하고 싶은 Music 앱을 열 수 있도록 설정할 수 있습니다</string>

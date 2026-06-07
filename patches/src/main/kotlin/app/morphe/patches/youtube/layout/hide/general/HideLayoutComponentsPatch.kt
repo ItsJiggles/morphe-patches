@@ -138,7 +138,11 @@ val hideLayoutComponentsPatch = bytecodePatch(
                         sorting = Sorting.UNSORTED,
                         tag = "app.morphe.extension.shared.settings.preference.NoTitlePreferenceCategory",
                         preferences = setOf(
-                            SwitchPreference("morphe_hide_comments_carousel"),
+                            SwitchPreference(
+                                "morphe_hide_comments_carousel",
+                                summary = true,
+                                tag = "app.morphe.extension.shared.settings.preference.BulletPointSwitchPreference"
+                            ),
                             TextPreference(
                                 "morphe_hide_comments_carousel_filter_strings",
                                 inputType = InputType.TEXT_MULTI_LINE
@@ -170,6 +174,7 @@ val hideLayoutComponentsPatch = bytecodePatch(
             SwitchPreference("morphe_hide_join_membership_button"),
             SwitchPreference("morphe_hide_live_chat_replay_button", summary = true),
             SwitchPreference("morphe_hide_medical_panels"),
+            SwitchPreference("morphe_hide_snackbar"),
             SwitchPreference("morphe_hide_subscribers_community_guidelines"),
             SwitchPreference("morphe_hide_timed_reactions", summary = true),
             SwitchPreference("morphe_hide_video_title", summary = true),
@@ -279,9 +284,17 @@ val hideLayoutComponentsPatch = bytecodePatch(
             SwitchPreference("morphe_hide_subscribed_channels_bar"),
             SwitchPreference("morphe_hide_surveys", summary = true),
             SwitchPreference("morphe_hide_ticket_shelf"),
-            SwitchPreference("morphe_hide_upload_time"),
+            SwitchPreference(
+                "morphe_hide_upload_time",
+                summary = true,
+                tag = "app.morphe.extension.shared.settings.preference.BulletPointSwitchPreference",
+            ),
             SwitchPreference("morphe_hide_video_recommendation_labels", summary = true),
-            SwitchPreference("morphe_hide_view_count"),
+            SwitchPreference(
+                "morphe_hide_view_count",
+                summary = true,
+                tag = "app.morphe.extension.shared.settings.preference.BulletPointSwitchPreference",
+            ),
             SwitchPreference("morphe_hide_web_search_results", summary = true),
             SwitchPreference("morphe_hide_youtube_doodles", summary = true),
         )
@@ -936,6 +949,50 @@ val hideLayoutComponentsPatch = bytecodePatch(
                     "invoke-static { v${targetInstruction.registerC}, v${targetInstruction.registerD} }, " +
                             "$LAYOUT_COMPONENTS_FILTER->hideAccountBottomItemLegacy(Landroid/view/View;Ljava/lang/CharSequence;)V"
                 )
+            }
+        }
+
+        // endregion
+
+        // region hide snackbar
+
+        LithoSnackbarLayoutFingerprint.let {
+            it.method.apply {
+                val index = it.instructionMatches.first().index
+                val register = getInstruction<TwoRegisterInstruction>(index).registerA
+                addInstruction(
+                    index,
+                    "invoke-static { v$register }, $LAYOUT_COMPONENTS_FILTER->hideLithoSnackBar(Landroid/widget/FrameLayout;)V"
+                )
+            }
+        }
+
+        BottomUIContainerFingerprint.method.addInstructionsWithLabels(
+            0,
+            """
+                invoke-static {}, $LAYOUT_COMPONENTS_FILTER->hideSnackbar()Z
+                move-result v0
+                if-eqz v0, :show
+                return-void
+                :show
+                nop
+            """
+        )
+
+        arrayOf(
+            QuantumSnackbarFingerprint,
+            MaterialSnackbarFingerprint,
+            AppSnackbarFingerprint,
+            YouTubeSnackbarFingerprint,
+            MealbarFingerprint
+        ).forEach { fingerprint ->
+            fingerprint.let {
+                it.method.apply {
+                    addInstruction(
+                        it.instructionMatches.first().index + 1,
+                        "invoke-static { p0 }, $LAYOUT_COMPONENTS_FILTER->handleLegacySnackbar(Landroid/view/View;)V"
+                    )
+                }
             }
         }
 
