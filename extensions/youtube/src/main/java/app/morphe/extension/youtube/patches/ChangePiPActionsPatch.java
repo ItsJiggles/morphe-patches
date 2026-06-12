@@ -17,6 +17,7 @@ import java.util.List;
 
 import app.morphe.extension.shared.ResourceType;
 import app.morphe.extension.shared.Utils;
+import app.morphe.extension.youtube.shared.PlaybackController;
 
 
 public class ChangePiPActionsPatch {
@@ -98,11 +99,10 @@ class Receiver extends BroadcastReceiver {
         }
         switch (intent.getAction()) {
             case "com.google.android.youtube.action.pip.rewind":
-                // i will add functionality to these later, for now they just use placeholder log functions
-                ChangePiPActionsPatch.log("rewind");
+                PlaybackController.skip(-10);
                 break;
             case "com.google.android.youtube.action.pip.fastforward":
-                ChangePiPActionsPatch.log("fast forward");
+                PlaybackController.skip(10);
                 break;
         }
     }

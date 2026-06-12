@@ -10,3 +10,12 @@ internal object SetPiPActionsFingerprint : Fingerprint(
         )
     )
 )
+
+internal object MediaSessionFingerprint : Fingerprint(
+    filters = listOf(
+        methodCall(
+            definingClass = "Landroid/media/session/MediaSession",
+            name = "setActive"
+        )
+    )
+)
