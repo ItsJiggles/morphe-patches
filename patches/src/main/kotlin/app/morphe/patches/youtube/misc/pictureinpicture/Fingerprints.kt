@@ -3,8 +3,7 @@ package app.morphe.patches.youtube.misc.pictureinpicture
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.methodCall
 
-// TODO: better name for the class
-internal object PiPFingerprint : Fingerprint(
+internal object SetPiPActionsFingerprint : Fingerprint(
     filters = listOf(
         methodCall(
             definingClass = "Landroid/app/PictureInPictureParams", name = "setActions"
