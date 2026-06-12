@@ -10,8 +10,6 @@ import app.morphe.patcher.extensions.InstructionExtensions.replaceInstruction
 import app.morphe.patcher.methodCall
 import app.morphe.patcher.patch.bytecodePatch
 import app.morphe.patcher.util.proxy.mutableTypes.MutableMethod
-import app.morphe.patches.all.misc.resources.ResourceType
-import app.morphe.patches.all.misc.resources.getResourceId
 import app.morphe.patches.shared.misc.settings.preference.BasePreference
 import app.morphe.patches.shared.misc.settings.preference.InputType
 import app.morphe.patches.shared.misc.settings.preference.ListPreference
@@ -54,11 +52,6 @@ val miniplayerPatch = bytecodePatch(
     compatibleWith(COMPATIBILITY_YOUTUBE)
 
     execute {
-        getResourceId(
-            ResourceType.ID,
-            "modern_miniplayer_subtitle_text",
-        )
-
         val preferences = mutableSetOf<BasePreference>()
 
         preferences +=
@@ -76,9 +69,7 @@ val miniplayerPatch = bytecodePatch(
         preferences += SwitchPreference("morphe_miniplayer_disable_drag_and_drop", summary = true)
         preferences += SwitchPreference("morphe_miniplayer_disable_horizontal_drag", summary = true)
         preferences += SwitchPreference("morphe_miniplayer_disable_rounded_corners")
-        preferences += SwitchPreference("morphe_miniplayer_hide_subtext")
         preferences += SwitchPreference("morphe_miniplayer_hide_overlay_buttons")
-        preferences += SwitchPreference("morphe_miniplayer_hide_rewind_forward")
         preferences += TextPreference("morphe_miniplayer_width_dip", inputType = InputType.NUMBER)
         preferences += NonInteractivePreference(
             key = "morphe_miniplayer_opacity",
@@ -346,8 +337,6 @@ val miniplayerPatch = bytecodePatch(
             MiniplayerModernExpandButtonFingerprint to "hideMiniplayerExpandClose",
             MiniplayerModernCloseButtonFingerprint to "hideMiniplayerExpandClose",
             MiniplayerModernActionButtonFingerprint to "hideMiniplayerActionButton",
-            MiniplayerModernRewindButtonFingerprint to "hideMiniplayerRewindForward",
-            MiniplayerModernForwardButtonFingerprint to "hideMiniplayerRewindForward",
             MiniplayerModernOverlayViewFingerprint to "adjustMiniplayerOpacity"
         ).forEach { (fingerprint, methodName) ->
             fingerprint.method.apply {
@@ -360,12 +349,6 @@ val miniplayerPatch = bytecodePatch(
                 )
             }
         }
-
-        MiniplayerModernAddViewListenerFingerprint.method.addInstruction(
-            0,
-            "invoke-static { p1 }, $EXTENSION_CLASS->" +
-                "hideMiniplayerSubTexts(Landroid/view/View;)V",
-        )
 
         // endregion
     }

@@ -62,13 +62,6 @@ private object MiniplayerModernViewParentFingerprint : Fingerprint(
     )
 )
 
-internal object MiniplayerModernAddViewListenerFingerprint : Fingerprint(
-    classFingerprint = MiniplayerModernViewParentFingerprint,
-    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
-    returnType = "V",
-    parameters = listOf("Landroid/view/View;"),
-)
-
 internal object MiniplayerModernCloseButtonFingerprint : Fingerprint(
     classFingerprint = MiniplayerModernViewParentFingerprint,
     accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
@@ -91,34 +84,12 @@ internal object MiniplayerModernExpandButtonFingerprint : Fingerprint(
     )
 )
 
-internal object MiniplayerModernForwardButtonFingerprint : Fingerprint(
-    classFingerprint = MiniplayerModernViewParentFingerprint,
-    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
-    returnType = "L",
-    parameters = listOf(),
-    filters = listOf(
-        resourceLiteral(ResourceType.ID, "modern_miniplayer_forward_button"),
-        opcode(Opcode.MOVE_RESULT_OBJECT, MatchAfterWithin(5))
-    )
-)
-
 internal object MiniplayerModernOverlayViewFingerprint : Fingerprint(
     classFingerprint = MiniplayerModernViewParentFingerprint,
     accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
     parameters = listOf(),
     filters = listOf(
         resourceLiteral(ResourceType.ID, "scrim_overlay"),
-        opcode(Opcode.MOVE_RESULT_OBJECT, MatchAfterWithin(5))
-    )
-)
-
-internal object MiniplayerModernRewindButtonFingerprint : Fingerprint(
-    classFingerprint = MiniplayerModernViewParentFingerprint,
-    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
-    returnType = "L",
-    parameters = listOf(),
-    filters = listOf(
-        resourceLiteral(ResourceType.ID, "modern_miniplayer_rewind_button"),
         opcode(Opcode.MOVE_RESULT_OBJECT, MatchAfterWithin(5))
     )
 )
