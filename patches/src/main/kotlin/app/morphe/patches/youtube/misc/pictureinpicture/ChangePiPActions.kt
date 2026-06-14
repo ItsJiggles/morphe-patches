@@ -5,7 +5,7 @@ import app.morphe.patcher.patch.bytecodePatch
 
 private const val EXTENSION_CLASS = "Lapp/morphe/extension/youtube/patches/ChangePiPActionsPatch;"
 private const val PLAYBACK_CONTROLLER_CLASS =
-    "Lapp/morphe/extension/youtube/Shared/PlaybackController;"
+    "Lapp/morphe/extension/youtube/shared/PlaybackController;"
 
 val ChangePiPActionsPatch = bytecodePatch(
     name = "Change PiP Actions",
