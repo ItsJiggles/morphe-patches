@@ -14,31 +14,47 @@ import android.util.Log;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import app.morphe.extension.shared.ResourceType;
 import app.morphe.extension.shared.Utils;
 import app.morphe.extension.youtube.shared.PlaybackController;
 
-
 public class ChangePiPActionsPatch {
-    // list of lists of strings, each list has the following items:
-    // 0->resource id, 1->remoteaction title, 2->remoteaction content description, 3->action
-    // null means use default remoteaction
-    // i might change the actions to not use the com.google.android.youtube prefix later, we'll see
-    private static final List<List<String>> userActionList = Arrays.asList(
-        Arrays.asList(
+    private static final Map<String, List<String>> actions = Map.of(
+        "rewind", Arrays.asList(
             "quantum_ic_replay_10_white_24",
             "Rewind",
             "Rewind ten seconds",
             "com.google.android.youtube.action.pip.rewind"
         ),
-        null,
-        Arrays.asList(
+        "fastforward", Arrays.asList(
             "quantum_ic_forward_10_white_24",
             "Fast forward",
             "Fast forward 10 seconds",
             "com.google.android.youtube.action.pip.fastforward"
+        ),
+        "prev", Arrays.asList(
+            "quantum_ic_skip_previous_white_24",
+            "Previous",
+            "Previous video",
+            "com.google.android.youtube.action.pip.prev"
+        ),
+        "next", Arrays.asList(
+            "quantum_ic_skip_next_white_24",
+            "Next",
+            "Next video",
+            "com.google.android.youtube.action.pip.next"
         )
+    );
+    // list of lists of strings, each list has the following items:
+    // 0->resource id, 1->remoteaction title, 2->remoteaction content description, 3->action
+    // null means use default remoteaction
+    // i might change the actions to not use the com.google.android.youtube prefix later, we'll see
+    private static final List<List<String>> userActionList = Arrays.asList(
+        actions.get("rewind"),
+        null,
+        actions.get("fastforward")
     );
     static Receiver receiver = new Receiver();
 
@@ -103,6 +119,12 @@ class Receiver extends BroadcastReceiver {
                 break;
             case "com.google.android.youtube.action.pip.fastforward":
                 PlaybackController.skip(10);
+                break;
+            case "com.google.android.youtube.action.pip.next":
+                PlaybackController.next();
+                break;
+            case "com.google.android.youtube.action.pip.prev":
+                PlaybackController.prev();
                 break;
         }
     }

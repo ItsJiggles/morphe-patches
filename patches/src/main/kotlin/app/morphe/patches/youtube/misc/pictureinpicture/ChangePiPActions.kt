@@ -3,7 +3,8 @@ package app.morphe.patches.youtube.misc.pictureinpicture
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.patch.bytecodePatch
 
-private const val EXTENSION_CLASS = "Lapp/morphe/extension/youtube/patches/ChangePiPActionsPatch;"
+private const val EXTENSION_CLASS =
+    "Lapp/morphe/extension/youtube/patches/ChangePiPActionsPatch;"
 private const val PLAYBACK_CONTROLLER_CLASS =
     "Lapp/morphe/extension/youtube/shared/PlaybackController;"
 
@@ -19,6 +20,7 @@ val ChangePiPActionsPatch = bytecodePatch(
                 move-result-object p1
             """
         )
+        // capture the MediaSession
         MediaSessionFingerprint.let {
             it.method.addInstructions(
                 it.instructionMatches[0].index + 1, """

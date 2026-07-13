@@ -23,4 +23,18 @@ public class PlaybackController {
         long position = Objects.requireNonNull(controller.getPlaybackState()).getPosition();
         transportControls.seekTo(position + seconds * 1000L);
     }
+
+    public static void next() {
+        if (capturedSession == null) {
+            return;
+        }
+        transportControls.skipToNext();
+    }
+
+    public static void prev() {
+        if (capturedSession == null) {
+            return;
+        }
+        transportControls.skipToPrevious();
+    }
 }
