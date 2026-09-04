@@ -7,8 +7,6 @@
 
 package app.morphe.extension.youtube.videoplayer;
 
-import static app.morphe.extension.youtube.patches.LegacyPlayerControlsPatch.RESTORE_OLD_PLAYER_BUTTONS;
-
 import android.view.View;
 
 import java.lang.ref.WeakReference;
@@ -17,6 +15,7 @@ import java.util.function.Function;
 import app.morphe.extension.shared.Logger;
 import app.morphe.extension.shared.ResourceType;
 import app.morphe.extension.shared.ResourceUtils;
+import app.morphe.extension.youtube.patches.LegacyPlayerControlsPatch;
 import app.morphe.extension.youtube.patches.SaveToWatchLaterPatch;
 import app.morphe.extension.youtube.patches.VideoInformation;
 import app.morphe.extension.youtube.patches.utils.PlaylistPatch;
@@ -24,6 +23,13 @@ import app.morphe.extension.youtube.settings.Settings;
 
 @SuppressWarnings("unused")
 public class SaveToWatchLaterButton {
+
+    public static final int saveToWatchLaterResourceId =
+            ResourceUtils.getIdentifier(ResourceType.DRAWABLE,
+                    LegacyPlayerControlsPatch.RESTORE_OLD_PLAYER_BUTTONS
+                            ? "yt_outline_list_add_black_24"
+                            : "yt_outline_experimental_playlist_add_vd_theme_24"
+            );
 
     static {
         if (Settings.SAVE_TO_WATCH_LATER_BUTTON.get()) {
@@ -53,7 +59,7 @@ public class SaveToWatchLaterButton {
                     }
                     PlaylistPatch.prepareDialogBuilder(controls.getContext(), VideoInformation.getVideoId());
                 } else {
-                    SaveToWatchLaterPatch.saveVideo();
+                    SaveToWatchLaterPatch.saveVideo(VideoInformation.getVideoId());
                 }
                 return null;
             };
@@ -72,11 +78,7 @@ public class SaveToWatchLaterButton {
             );
 
             if (swapSaveAndQueue) {
-                instance.setIcon(ResourceUtils.getIdentifier(ResourceType.DRAWABLE,
-                        RESTORE_OLD_PLAYER_BUTTONS
-                                ? "yt_outline_list_add_black_24"
-                                : "yt_outline_experimental_playlist_add_vd_theme_24"
-                ));
+                instance.setIcon(saveToWatchLaterResourceId);
             }
         } catch (Exception ex) {
             Logger.printException(() -> "initialize failure", ex);

@@ -4,6 +4,7 @@
  *
  * See the included NOTICE file for GPLv3 Section 7 terms that apply to this code.
  */
+
 package app.morphe.extension.reddit.patches;
 
 import static app.morphe.extension.shared.StringRef.str;
@@ -102,8 +103,6 @@ public final class CustomFontPatch {
     }
 
     private static Typeface build(String fontPath, int weight, boolean italic) {
-        String variation = "'wght' " + weight + (italic ? ", 'ital' 1" : "");
-
         if (fontPath.startsWith("content://")) {
             Context context = Utils.getContext();
             if (context == null) {
@@ -116,11 +115,10 @@ public final class CustomFontPatch {
                     return null;
                 }
 
-                return new Typeface.Builder(pfd.getFileDescriptor())
-                        .setFontVariationSettings(variation)
-                        .setWeight(weight)
-                        .setItalic(italic)
-                        .build();
+                Typeface baseTypeface = new Typeface.Builder(pfd.getFileDescriptor()).build();
+                return baseTypeface == null
+                        ? null
+                        : Typeface.create(baseTypeface, weight, italic);
             } catch (FileNotFoundException ex) {
                 Logger.printException(() -> "Font file not found", ex);
             } catch (IOException ex) {
@@ -130,11 +128,10 @@ public final class CustomFontPatch {
             return null;
         }
 
-        return new Typeface.Builder(new File(fontPath))
-                .setFontVariationSettings(variation)
-                .setWeight(weight)
-                .setItalic(italic)
-                .build();
+            Typeface baseTypeface = new Typeface.Builder(new File(fontPath)).build();
+            return baseTypeface == null
+                ? null
+                : Typeface.create(baseTypeface, weight, italic);
     }
 
     private static int weightFromPath(String path) {

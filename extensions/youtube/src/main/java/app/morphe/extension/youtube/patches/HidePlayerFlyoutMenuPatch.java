@@ -7,9 +7,9 @@
 
 package app.morphe.extension.youtube.patches;
 
-import static app.morphe.extension.shared.patches.ConversionContext.ELEMENT_IDENTIFIER_COMPONENT;
-import static app.morphe.extension.shared.patches.ConversionContext.ELEMENT_IDENTIFIER_CONTAINER;
+import static app.morphe.extension.shared.StringRef.str;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
 
@@ -17,6 +17,7 @@ import java.util.List;
 
 import app.morphe.extension.shared.Logger;
 import app.morphe.extension.shared.Utils;
+import app.morphe.extension.shared.patches.ConversionContext;
 import app.morphe.extension.youtube.innertube.NextResponseOuterClass.NewElement;
 import app.morphe.extension.youtube.settings.Settings;
 
@@ -67,8 +68,8 @@ public final class HidePlayerFlyoutMenuPatch {
                     if (path.startsWith(CAPTIONS_BODY_PATH) && HIDE_PLAYER_FLYOUT_CAPTIONS_FOOTER) {
                         int i = 0;
                         for (Object object : treeNodeResultList) {
-                            if (!ELEMENT_IDENTIFIER_COMPONENT.equals(object.toString())) {
-                                if (i == size - 1 && ELEMENT_IDENTIFIER_CONTAINER.equals(object.toString())) {
+                            if (!ConversionContext.ELEMENT_IDENTIFIER_COMPONENT.equals(object.toString())) {
+                                if (i == size - 1 && ConversionContext.ELEMENT_IDENTIFIER_CONTAINER.equals(object.toString())) {
                                     continue;
                                 } else {
                                     return;
@@ -81,7 +82,7 @@ public final class HidePlayerFlyoutMenuPatch {
 
                     } else if (path.startsWith(ADVANCED_VIDEO_QUALITY_BODY_PATH) && HIDE_PLAYER_FLYOUT_QUALITY_FOOTER) {
                         for (Object object : treeNodeResultList) {
-                            if (!ELEMENT_IDENTIFIER_COMPONENT.equals(object.toString())) {
+                            if (!ConversionContext.ELEMENT_IDENTIFIER_COMPONENT.equals(object.toString())) {
                                 return;
                             }
                         }
@@ -148,7 +149,14 @@ public final class HidePlayerFlyoutMenuPatch {
                             return EMPTY_BYTE_ARRAY;
                         }
                     } else if (HIDE_PLAYER_FLYOUT_CAPTIONS_HEADER && model.hasBottomSheetHeaderModel()) {
-                        return EMPTY_BYTE_ARRAY;
+                        // 'CAPTIONS_HEADER_PATH(bottom_sheet_header.e)' is used not only for captions player flyout menu but also in other places:
+                        // https://github.com/MorpheApp/morphe-patches/issues/2637.
+                        //
+                        // Filter only if the bottom sheet title is 'Captions'.
+                        String bottomSheetTitle = model.getBottomSheetHeaderModel().getHeaderContent().getTitleText();
+                        if (TextUtils.equals(bottomSheetTitle, str("overflow_captions"))) {
+                            return EMPTY_BYTE_ARRAY;
+                        }
                     }
                 }
             } catch (Exception ex) {

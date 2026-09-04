@@ -1,16 +1,26 @@
-package app.morphe.extension.music.settings;
+/*
+ * Copyright 2026 Morphe.
+ * https://github.com/MorpheApp/morphe-patches
+ *
+ * Original hard forked code:
+ * https://github.com/ReVanced/revanced-patches/commit/724e6d61b2ecd868c1a9a37d465a688e83a74799
+ *
+ * See the included NOTICE file for GPLv3 Section 7 terms that apply to Morphe contributions.
+ */
 
-import static app.morphe.extension.shared.spoof.SpoofAppVersionPatch.isSpoofingToLessThan;
+package app.morphe.extension.music.settings;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.BlendMode;
+import android.graphics.BlendModeColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.preference.PreferenceFragment;
 import android.view.View;
 import android.widget.Toolbar;
 
-import app.morphe.extension.music.patches.VersionCheckPatch;
 import app.morphe.extension.music.settings.preference.MusicPreferenceFragment;
 import app.morphe.extension.music.settings.search.MusicSearchViewController;
 import app.morphe.extension.shared.Logger;
@@ -18,6 +28,8 @@ import app.morphe.extension.shared.ResourceType;
 import app.morphe.extension.shared.ResourceUtils;
 import app.morphe.extension.shared.Utils;
 import app.morphe.extension.shared.settings.BaseActivityHook;
+import app.morphe.extension.shared.spoof.SpoofAppVersionPatch;
+import app.morphe.extension.shared.theme.ThemeUtils;
 
 /**
  * Hooks {@code com.google.android.gms.common.api.GoogleApiActivity}
@@ -30,8 +42,7 @@ public class MusicActivityHook extends BaseActivityHook {
     public static MusicSearchViewController searchViewController;
 
     private static final boolean USE_BOLD_ICONS = Settings.SETTINGS_INITIALIZED.get()
-            && VersionCheckPatch.IS_8_40_OR_GREATER
-            && !isSpoofingToLessThan("8.40.00");
+            && !SpoofAppVersionPatch.isSpoofingToLessThan("8.40.00");
 
     static {
         Utils.setAppIsUsingBoldIcons(USE_BOLD_ICONS);
@@ -85,11 +96,11 @@ public class MusicActivityHook extends BaseActivityHook {
     @Override
     protected Drawable getNavigationIcon() {
         Drawable navigationIcon = MusicPreferenceFragment.getBackButtonDrawable();
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-            navigationIcon.setColorFilter(new android.graphics.BlendModeColorFilter(
-                    Utils.getAppForegroundColor(), android.graphics.BlendMode.SRC_IN));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            navigationIcon.setColorFilter(new BlendModeColorFilter(
+                    ThemeUtils.getAppForegroundColor(), BlendMode.SRC_IN));
         } else {
-            navigationIcon.setColorFilter(Utils.getAppForegroundColor(), PorterDuff.Mode.SRC_IN);
+            navigationIcon.setColorFilter(ThemeUtils.getAppForegroundColor(), PorterDuff.Mode.SRC_IN);
         }
 
         return navigationIcon;

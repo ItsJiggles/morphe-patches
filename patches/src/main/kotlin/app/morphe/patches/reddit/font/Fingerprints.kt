@@ -4,11 +4,13 @@
  *
  * See the included NOTICE file for GPLv3 Section 7 terms that apply to this code.
  */
+
 package app.morphe.patches.reddit.font
 
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.methodCall
 import app.morphe.patcher.patch.BytecodePatchContext
+import app.morphe.patcher.util.proxy.mutableTypes.MutableMethod
 import com.android.tools.smali.dexlib2.AccessFlags
 
 internal enum class TypefaceCompatCreateFromResourcesFontFileVariant {
@@ -18,7 +20,7 @@ internal enum class TypefaceCompatCreateFromResourcesFontFileVariant {
 
 internal data class TypefaceCompatCreateFromResourcesFontFileTarget(
     val variant: TypefaceCompatCreateFromResourcesFontFileVariant,
-    val method: app.morphe.patcher.util.proxy.mutableTypes.MutableMethod,
+    val method: MutableMethod,
 )
 
 internal object LegacyTypefaceCompatCreateFromResourcesFontFileFingerprint : Fingerprint(
@@ -32,7 +34,7 @@ internal object LegacyTypefaceCompatCreateFromResourcesFontFileFingerprint : Fin
         "I",
     ),
     filters = listOf(
-        methodCall(smali = "Landroid/graphics/fonts/Font\$Builder;-><init>(Landroid/content/res/Resources;I)V"),
+        methodCall(smali = $$"Landroid/graphics/fonts/Font$Builder;-><init>(Landroid/content/res/Resources;I)V"),
     ),
 )
 
@@ -47,7 +49,7 @@ internal object ModernTypefaceCompatCreateFromResourcesFontFileFingerprint : Fin
         "I",
     ),
     filters = listOf(
-        methodCall(smali = "Landroid/graphics/fonts/Font\$Builder;-><init>(Landroid/content/res/Resources;I)V"),
+        methodCall(smali = $$"Landroid/graphics/fonts/Font$Builder;-><init>(Landroid/content/res/Resources;I)V"),
     ),
 )
 

@@ -1,3 +1,13 @@
+/*
+ * Copyright 2026 Morphe.
+ * https://github.com/MorpheApp/morphe-patches
+ *
+ * Original hard forked code:
+ * https://github.com/ReVanced/revanced-patches/commit/724e6d61b2ecd868c1a9a37d465a688e83a74799
+ *
+ * See the included NOTICE file for GPLv3 Section 7 terms that apply to Morphe contributions.
+ */
+
 package app.morphe.patches.youtube.interaction.seekbar
 
 import app.morphe.patcher.Fingerprint
@@ -10,7 +20,11 @@ import app.morphe.patcher.methodCall
 import app.morphe.patcher.newInstance
 import app.morphe.patcher.opcode
 import app.morphe.patcher.string
-import app.morphe.patches.youtube.video.quality.VideoStreamingDataToStringFingerprint
+import app.morphe.patches.all.misc.resources.ResourceType
+import app.morphe.patches.all.misc.resources.resourceLiteral
+import app.morphe.patches.shared.FormatStreamModelToStringFingerprint
+import app.morphe.patches.youtube.shared.SeekbarFingerprint
+import app.morphe.patches.youtube.shared.VideoStreamingDataToStringFingerprint
 import com.android.tools.smali.dexlib2.AccessFlags
 import com.android.tools.smali.dexlib2.Opcode
 
@@ -120,11 +134,14 @@ internal object SlideToSeekFingerprint : Fingerprint(
 )
 
 internal object FullscreenLargeSeekbarFeatureFlagFingerprint : Fingerprint(
-    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
-    returnType = "Z",
-    parameters = listOf(),
     filters = listOf(
         literal(45691569)
+    )
+)
+
+internal object ShortsDisableSeekbarThumbnailsFeatureFlagFingerprint : Fingerprint(
+    filters = listOf(
+        literal(45787901)
     )
 )
 
@@ -140,17 +157,10 @@ internal object VideoStreamingDataAllowSeekingFingerprint : Fingerprint(
     )
 )
 
-private object FormatStreamModelClassFingerprint : Fingerprint(
-    returnType = "Ljava/lang/String;",
-    filters = listOf(
-        string("FormatStream(itag=")
-    )
-)
-
 // DVR window duration in seconds; 0 for non-DVR streams.
 // Caller multiplies result by 1e6 with 4-hour fallback when <= 0, logs "windowMaxMediaTimeUs".
 internal object FormatStreamModelMaxDVRDurationFingerprint : Fingerprint(
-    classFingerprint = FormatStreamModelClassFingerprint,
+    classFingerprint = FormatStreamModelToStringFingerprint,
     accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
     returnType = "D",
     parameters = listOf(),
@@ -158,5 +168,153 @@ internal object FormatStreamModelMaxDVRDurationFingerprint : Fingerprint(
         opcode(Opcode.IGET_OBJECT),
         fieldAccess(opcode = Opcode.IGET_WIDE, type = "D", location = MatchAfterImmediately()),
         opcode(Opcode.RETURN_WIDE, location = MatchAfterImmediately()),
+    )
+)
+
+internal object SeekbarHandlerOnTouchFingerprint : Fingerprint (
+    classFingerprint = SeekbarFingerprint,
+    name = "onTouchEvent"
+)
+
+internal object SeekbarUpdatePointFingerprint : Fingerprint (
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    parameters = listOf(),
+    returnType = "V",
+    filters = listOf(
+        fieldAccess(
+            definingClass = "this",
+            type = "Landroid/graphics/Point;"
+        ),
+        methodCall( // Get seekbar point.
+            opcode = Opcode.INVOKE_INTERFACE,
+            parameters = listOf("Landroid/graphics/Point;"),
+            returnType = "V",
+            location = MatchAfterWithin(5)
+        ),
+        fieldAccess(
+            opcode = Opcode.IGET_OBJECT,
+            definingClass = "this",
+            type = "Landroid/graphics/Rect;",
+            location = MatchAfterWithin(10)
+        ),
+        fieldAccess(
+            opcode = Opcode.IGET,
+            smali = "Landroid/graphics/Rect;->left:I",
+            location = MatchAfterWithin(5)
+        )
+    )
+)
+
+internal object SlideSeekbarHandlerOnTouchFingerprint : Fingerprint (
+    classFingerprint = Fingerprint (
+        accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.CONSTRUCTOR),
+        filters = listOf(
+            resourceLiteral(ResourceType.DIMEN, "seek_easy_horizontal_touch_offset_to_start_scrubbing")
+        )
+    ),
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    returnType = "Z",
+    parameters = listOf("Landroid/view/View;", "Landroid/view/MotionEvent;")
+)
+
+internal object SlideSeekbarGetViewControllerFingerprint : Fingerprint (
+    accessFlags = listOf(AccessFlags.PRIVATE, AccessFlags.FINAL),
+    returnType = "V",
+    parameters = listOf("Landroid/view/View;", "F"),
+    filters = listOf(
+        fieldAccess(
+            opcode = Opcode.IGET_OBJECT,
+            definingClass = "this",
+            location = MatchAfterWithin(10) // Match close to start of method.
+        ),
+        fieldAccess(
+            opcode = Opcode.IGET_OBJECT,
+            location = MatchAfterWithin(10)
+        ),
+        literal(124587, location = MatchAfterWithin(20)),
+        fieldAccess(
+            opcode = Opcode.IGET_OBJECT,
+            location = MatchAfterWithin(10)
+        ),
+        literal(67108864)
+    )
+)
+
+internal object SeekbarFineScrubbingBitmapFingerprint : Fingerprint (
+    classFingerprint = Fingerprint (
+        returnType = "Landroid/graphics/Bitmap;",
+        parameters = listOf("L", "I", "Landroid/graphics/Bitmap;"),
+        filters = listOf(
+            string("Storyboard regionDecoder.decodeRegion exception - ")
+        )
+    ),
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL, AccessFlags.DECLARED_SYNCHRONIZED),
+    returnType = "V",
+    parameters = listOf("Landroid/graphics/Bitmap;")
+)
+
+internal object SeekbarBigBoardsUpdateFingerprint : Fingerprint (
+    classFingerprint = Fingerprint(
+        accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+        returnType = "Ljava/lang/String;",
+        parameters = listOf(),
+        filters = listOf(
+            string("player_overlay_big_boards")
+        )
+    ),
+    accessFlags = listOf(AccessFlags.PRIVATE, AccessFlags.FINAL),
+    returnType = "Z",
+    parameters = listOf(),
+    filters = listOf(
+        literal(1),
+        opcode(opcode = Opcode.IF_NEZ, location = MatchAfterImmediately()),
+        opcode(opcode = Opcode.RETURN, location = MatchAfterImmediately())
+    )
+)
+
+internal object SeekbarBigBoardsUpdateLegacyFingerprint : Fingerprint (
+    classFingerprint = Fingerprint(
+        accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+        returnType = "V",
+        parameters = listOf("Z"),
+        filters = listOf(
+            fieldAccess(
+                opcode = Opcode.SGET_OBJECT,
+                smali = $$"Landroid/widget/ImageView$ScaleType;->CENTER_CROP:Landroid/widget/ImageView$ScaleType;"
+            ),
+            fieldAccess(
+                opcode = Opcode.SGET_OBJECT,
+                smali = $$"Landroid/widget/ImageView$ScaleType;->FIT_CENTER:Landroid/widget/ImageView$ScaleType;"
+            )
+        )
+    ),
+    accessFlags = listOf(AccessFlags.PRIVATE, AccessFlags.FINAL),
+    returnType = "Z",
+    parameters = listOf(),
+    filters = listOf(
+        literal(1),
+        opcode(opcode = Opcode.IF_NEZ, location = MatchAfterImmediately()),
+        opcode(opcode = Opcode.RETURN, location = MatchAfterImmediately())
+    )
+)
+
+internal object PreciseSeekingRecyclerViewFingerprint : Fingerprint (
+    classFingerprint = Fingerprint(
+        accessFlags = listOf(
+            AccessFlags.PUBLIC,
+            AccessFlags.FINAL,
+            AccessFlags.BRIDGE,
+            AccessFlags.SYNTHETIC
+        ),
+        filters = listOf(
+            resourceLiteral(ResourceType.LAYOUT, "film_strip_thumbnail_item")
+        )
+    ),
+    accessFlags = listOf(AccessFlags.PUBLIC, AccessFlags.FINAL),
+    returnType = "V",
+    parameters = listOf("Landroid/support/v7/widget/RecyclerView;"),
+    filters = listOf(
+        fieldAccess(opcode = Opcode.IPUT_OBJECT, type = "Landroid/support/v7/widget/RecyclerView;"),
+        opcode(opcode = Opcode.RETURN_VOID, location = MatchAfterImmediately())
     )
 )

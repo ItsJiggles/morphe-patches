@@ -40,15 +40,11 @@ public final class PlayerFlyoutMenuComponentsFilter extends Filter {
         }
     }
 
-    private final ByteArrayFilterGroup flyoutLoopVideoButton = new ByteArrayFilterGroup(
-            null,
-            "yt_outline_arrow_repeat_1_",
-            "yt_outline_experimental_repeat1_",
-            "yt_outline_experimental_play_circle_black_"
-    );
-    private final ByteArrayFilterGroupList flyoutFilterGroupList = new ByteArrayFilterGroupList();
     private final StringFilterGroup audioTrackMenuFooter;
     private final StringFilterGroup divider;
+    private final StringFilterGroup flyoutMenu;
+    private final ByteArrayFilterGroup flyoutLoopVideoMenuBuffer;
+    private final ByteArrayFilterGroupList flyoutMenuBufferGroupList = new ByteArrayFilterGroupList();
     private final StringFilterGroup qualityMenuFooter;
 
     public PlayerFlyoutMenuComponentsFilter() {
@@ -62,6 +58,11 @@ public final class PlayerFlyoutMenuComponentsFilter extends Filter {
                 "|divider.e"
         );
 
+        flyoutMenu = new StringFilterGroup(
+                null,
+                "overflow_menu_item.e"
+        );
+
         qualityMenuFooter = new StringFilterGroup(
                 Settings.HIDE_PLAYER_FLYOUT_QUALITY_FOOTER,
                 "quality_sheet_footer.e"
@@ -70,41 +71,18 @@ public final class PlayerFlyoutMenuComponentsFilter extends Filter {
         addPathCallbacks(
                 audioTrackMenuFooter,
                 divider,
-                qualityMenuFooter,
-                new StringFilterGroup(null, "overflow_menu_item.e")
+                flyoutMenu,
+                qualityMenuFooter
         );
 
-        flyoutFilterGroupList.addAll(
-                new ByteArrayFilterGroup(
-                        Settings.HIDE_PLAYER_FLYOUT_CAPTIONS,
-                        "closed_caption_",
-                        "yt_outline_experimental_closed_captions_"
-                ),
-                new ByteArrayFilterGroup(
-                        Settings.HIDE_PLAYER_FLYOUT_LISTEN_WITH_YOUTUBE_MUSIC,
-                        "yt_outline_youtube_music_",
-                        "yt_outline_experimental_youtube_music_"
-                ),
-                new ByteArrayFilterGroup(
-                        Settings.HIDE_PLAYER_FLYOUT_HELP,
-                        "yt_outline_question_circle_",
-                        "yt_outline_experimental_help_circle_"
-                ),
-                new ByteArrayFilterGroup(
-                        Settings.HIDE_PLAYER_FLYOUT_LOCK_SCREEN,
-                        "yt_outline_lock_",
-                        "yt_outline_experimental_lock_"
-                ),
-                new ByteArrayFilterGroup(
-                        Settings.HIDE_PLAYER_FLYOUT_SPEED,
-                        "yt_outline_play_arrow_half_circle_",
-                        "yt_outline_experimental_play_circle_half_dashed_"
-                ),
-                new ByteArrayFilterGroup(
-                        Settings.HIDE_PLAYER_FLYOUT_AUDIO_TRACK,
-                        "yt_outline_person_",
-                        "yt_outline_experimental_person_"
-                ),
+        flyoutLoopVideoMenuBuffer = new ByteArrayFilterGroup(
+                null,
+                "yt_outline_arrow_repeat_1_",
+                "yt_outline_experimental_repeat1_",
+                "yt_outline_experimental_play_circle_black_"
+        );
+
+        flyoutMenuBufferGroupList.addAll(
                 new ByteArrayFilterGroup(
                         Settings.HIDE_PLAYER_FLYOUT_ADDITIONAL_SETTINGS,
                         "yt_outline_gear_",
@@ -116,10 +94,39 @@ public final class PlayerFlyoutMenuComponentsFilter extends Filter {
                         "yt_outline_experimental_ambient_mode_"
                 ),
                 new ByteArrayFilterGroup(
-                        Settings.HIDE_PLAYER_FLYOUT_STABLE_VOLUME,
-                        "volume_stable_",
-                        "yt_fill_experimental_stable_volume_",
-                        "yt_outline_experimental_stable_volume_"
+                        Settings.HIDE_PLAYER_FLYOUT_AUDIO_TRACK,
+                        "yt_outline_person_",
+                        "yt_outline_experimental_person_"
+                ),
+                new ByteArrayFilterGroup(
+                        Settings.HIDE_PLAYER_FLYOUT_CAPTIONS,
+                        "closed_caption_",
+                        "yt_outline_experimental_closed_captions_"
+                ),
+                new ByteArrayFilterGroup(
+                        Settings.HIDE_PLAYER_FLYOUT_HELP,
+                        "yt_outline_question_circle_",
+                        "yt_outline_experimental_help_circle_"
+                ),
+                new ByteArrayFilterGroup(
+                        Settings.HIDE_PLAYER_FLYOUT_LISTEN_WITH_YOUTUBE_MUSIC,
+                        "yt_outline_youtube_music_",
+                        "yt_outline_experimental_youtube_music_"
+                ),
+                new ByteArrayFilterGroup(
+                        Settings.HIDE_PLAYER_FLYOUT_LOCK_SCREEN,
+                        "yt_outline_lock_",
+                        "yt_outline_experimental_lock_"
+                ),
+                new ByteArrayFilterGroup(
+                        Settings.HIDE_PLAYER_FLYOUT_ON_THE_GO,
+                        "yt_outline_headset_",
+                        "yt_outline_experimental_headset_"
+                ),
+                new ByteArrayFilterGroup(
+                        Settings.HIDE_PLAYER_FLYOUT_QUALITY,
+                        "yt_outline_adjust_",
+                        "yt_outline_experimental_adjust_"
                 ),
                 new ByteArrayFilterGroup(
                         Settings.HIDE_PLAYER_FLYOUT_SLEEP_TIMER,
@@ -127,14 +134,20 @@ public final class PlayerFlyoutMenuComponentsFilter extends Filter {
                         "yt_outline_experimental_sleep_timer_"
                 ),
                 new ByteArrayFilterGroup(
+                        Settings.HIDE_PLAYER_FLYOUT_SPEED,
+                        "yt_outline_play_arrow_half_circle_",
+                        "yt_outline_experimental_play_circle_half_dashed_"
+                ),
+                new ByteArrayFilterGroup(
+                        Settings.HIDE_PLAYER_FLYOUT_STABLE_VOLUME,
+                        "volume_stable_",
+                        "yt_fill_experimental_stable_volume_",
+                        "yt_outline_experimental_stable_volume_"
+                ),
+                new ByteArrayFilterGroup(
                         Settings.HIDE_PLAYER_FLYOUT_WATCH_IN_VR,
                         "yt_outline_vr_",
                         "yt_outline_experimental_vr_"
-                ),
-                new ByteArrayFilterGroup(
-                        Settings.HIDE_PLAYER_FLYOUT_QUALITY,
-                        "yt_outline_adjust_",
-                        "yt_outline_experimental_adjust_"
                 )
         );
     }
@@ -163,26 +176,30 @@ public final class PlayerFlyoutMenuComponentsFilter extends Filter {
             return path.contains("overflow_menu_item.e");
         }
 
-        if (contentIndex != 0) {
-            return false; // Overflow menu is always the start of the path.
-        }
-
-        // Shorts also use this player flyout panel
-        if (ShortsPlayerState.isOpen()) {
-            return false;
-        }
-
-        // 21.x+ fix.
-        if (VersionCheckPatch.IS_20_31_OR_GREATER && path.contains("bottom_sheet_list_option.e")) {
-            return false;
-        }
-
-        if (Settings.HIDE_PLAYER_FLYOUT_LOOP_VIDEO.get() || Settings.LOOP_VIDEO_BUTTON.get()) {
-            if (flyoutLoopVideoButton.check(buffer).isFiltered()) {
-                return true;
+        if (matchedGroup == flyoutMenu) {
+            if (contentIndex != 0) {
+                return false; // Overflow menu is always the start of the path.
             }
+
+            // Shorts also use this player flyout panel
+            if (ShortsPlayerState.isOpen()) {
+                return false;
+            }
+
+            // 21.x+ fix.
+            if (VersionCheckPatch.IS_20_31_OR_GREATER && path.contains("bottom_sheet_list_option.e")) {
+                return false;
+            }
+
+            if (Settings.HIDE_PLAYER_FLYOUT_LOOP_VIDEO.get() || Settings.LOOP_VIDEO_BUTTON.get()) {
+                if (flyoutLoopVideoMenuBuffer.check(buffer).isFiltered()) {
+                    return true;
+                }
+            }
+
+            return flyoutMenuBufferGroupList.check(buffer).isFiltered();
         }
 
-        return flyoutFilterGroupList.check(buffer).isFiltered();
+        return false;
     }
 }

@@ -10,11 +10,10 @@
 
 package app.morphe.extension.youtube.patches.components;
 
-import static app.morphe.extension.shared.Utils.getFilterStrings;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
@@ -23,6 +22,9 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import app.morphe.extension.shared.Logger;
+import app.morphe.extension.shared.ResourceType;
+import app.morphe.extension.shared.ResourceUtils;
+import app.morphe.extension.shared.Utils;
 import app.morphe.extension.shared.patches.components.BufferAsciiStrings;
 import app.morphe.extension.shared.patches.components.ByteArrayFilterGroup;
 import app.morphe.extension.shared.patches.components.ByteArrayFilterGroupList;
@@ -41,15 +43,20 @@ public class CommentsFilter extends Filter {
     private static final String COMMENT_COMPOSER_PATH = "comment_composer.e";
     private static final String VIDEO_LOCKUP_WITH_ATTACHMENT_PATH = "video_lockup_with_attachment.e";
     private static final String VIDEO_METADATA_CAROUSEL_PATH = "video_metadata_carousel.e";
+    private static final int ID_LIVE_CHAT_ACTION_PANEL =
+            ResourceUtils.getIdentifierOrThrow(ResourceType.ID, "live_chat_action_panel");
 
-    private static final List<String> commentsCarouselFilterStrings = getFilterStrings(Settings.HIDE_COMMENTS_CAROUSEL_FILTER_STRINGS);
+    private static final List<String> commentsCarouselFilterStrings =
+            Utils.getFilterStrings(Settings.HIDE_COMMENTS_CAROUSEL_FILTER_STRINGS);
 
-    private final StringFilterGroup comments;
+    private final StringFilterGroup commentComposer;
     private final StringFilterGroup commentComposerButtons;
     private final ByteArrayFilterGroupList commentComposerButtonsGroupList = new ByteArrayFilterGroupList();
+    private final StringFilterGroup comments;
     private final StringFilterGroup commentsFilterBar;
-    private final StringFilterGroup emojiAndTimestampButtons;
+    private final StringFilterGroup emojiButton;
     private final StringFilterGroup previewCommentDotsSelector;
+
     public CommentsFilter() {
         var channelGuidelines = new StringFilterGroup(
                 Settings.HIDE_COMMENTS_CHANNEL_GUIDELINES,
@@ -61,16 +68,9 @@ public class CommentsFilter extends Filter {
                 "live_chat_summary_banner.e"
         );
 
-        comments = new StringFilterGroup(
+        commentComposer = new StringFilterGroup(
                 null,
-                "video_metadata_carousel",
-                "_comments"
-        );
-
-        var commentsByMembers = new StringFilterGroup(
-                Settings.HIDE_COMMENTS_BY_MEMBERS_HEADER,
-                "sponsorships_comments_header.e",
-                "sponsorships_comments_footer.e"
+                COMMENT_COMPOSER_PATH
         );
 
         commentComposerButtons = new StringFilterGroup(
@@ -90,16 +90,28 @@ public class CommentsFilter extends Filter {
                 )
         );
 
-        commentsFilterBar = new StringFilterGroup(
-                Settings.HIDE_FILTER_BAR_IN_COMMENTS,
-                CHIP_BAR_PATH_PREFIX
+        comments = new StringFilterGroup(
+                null,
+                "video_metadata_carousel",
+                "_comments"
         );
 
-        var commentsPrompts = new StringFilterGroup(
-                Settings.HIDE_COMMENTS_PROMPTS,
+        var commentsByMembers = new StringFilterGroup(
+                Settings.HIDE_COMMENTS_BY_MEMBERS_HEADER,
+                "sponsorships_comments_header.e",
+                "sponsorships_comments_footer.e"
+        );
+
+        var commentsContexts = new StringFilterGroup(
+                Settings.HIDE_COMMENTS_CONTEXTS,
                 "comment_filter_context.e",
                 "timed_comments_welcome.e",
                 "timed_comments_end.e"
+        );
+
+        commentsFilterBar = new StringFilterGroup(
+                Settings.HIDE_FILTER_BAR_IN_COMMENTS,
+                CHIP_BAR_PATH_PREFIX
         );
 
         var communityGuidelines = new StringFilterGroup(
@@ -112,9 +124,9 @@ public class CommentsFilter extends Filter {
                 "composer_short_creation_button.e"
         );
 
-        emojiAndTimestampButtons = new StringFilterGroup(
-                Settings.HIDE_COMMENTS_EMOJI_AND_TIMESTAMP_BUTTONS,
-                "|CellType|ContainerType|ContainerType|ContainerType|ContainerType|ContainerType|"
+        emojiButton = new StringFilterGroup(
+                Settings.HIDE_COMMENTS_EMOJI_BUTTON,
+                "id.comment.quick_emoji.button"
         );
 
         var giftAnimationAndCards = new StringFilterGroup(
@@ -140,21 +152,34 @@ public class CommentsFilter extends Filter {
                 "super_thanks_button.e"
         );
 
+        var timestampButton = new StringFilterGroup(
+                Settings.HIDE_COMMENTS_TIMESTAMP_BUTTON,
+                "composer_timestamp_button.e"
+        );
+
+        var topFansButton = new StringFilterGroup(
+                Settings.HIDE_COMMENTS_TOP_FANS_BUTTON,
+                "live_viewer_leaderboard_chat_entry_point.e"
+        );
+
         addPathCallbacks(
                 channelGuidelines,
                 chatSummary,
+                commentComposer,
+                commentComposerButtons,
                 comments,
                 commentsByMembers,
-                commentComposerButtons,
+                commentsContexts,
                 commentsFilterBar,
-                commentsPrompts,
                 communityGuidelines,
                 createAShortButton,
-                emojiAndTimestampButtons,
+                emojiButton,
                 giftAnimationAndCards,
                 previewComment,
                 previewCommentDotsSelector,
-                thanksButton
+                thanksButton,
+                timestampButton,
+                topFansButton
         );
     }
 
@@ -175,6 +200,10 @@ public class CommentsFilter extends Filter {
             return Settings.HIDE_COMMENTS_SECTION.get();
         }
 
+        if (matchedGroup == commentComposer) {
+            return emojiButton.check(accessibility).isFiltered();
+        }
+
         if (matchedGroup == commentComposerButtons) {
             if (!VersionCheckPatch.IS_20_31_OR_GREATER) {
                 return false;
@@ -186,15 +215,43 @@ public class CommentsFilter extends Filter {
             return Settings.HIDE_FILTER_BAR_IN_COMMENTS.get() && PlayerType.getCurrent().isMaximizedOrFullscreen();
         }
 
-        if (matchedGroup == emojiAndTimestampButtons) {
-            return path.startsWith(COMMENT_COMPOSER_PATH);
-        }
-
         if (matchedGroup == previewCommentDotsSelector) {
             return path.contains("carousel_header") && path.endsWith("|ContainerType|ContainerType|ContainerType|");
         }
 
         return true;
+    }
+
+    /**
+     * Injection point.
+     */
+    public static void hideCommentsFilterBarOptions(@NonNull String identifier,
+                                                    @NonNull List<Object> treeNodeResultList) {
+        try {
+            if (Settings.HIDE_COMMENTS_FILTER_BAR_OPTIONS.get()
+                    && identifier.startsWith(CHIP_BAR_PATH_PREFIX)
+                    // Playlist sort button uses same components and must only filter if the player is opened.
+                    && PlayerType.getCurrent().isMaximizedOrFullscreen()
+            ) {
+                int treeNodeResultListSize = treeNodeResultList.size();
+                if (treeNodeResultListSize > 2) {
+                    treeNodeResultList.subList(1, treeNodeResultListSize - 1).clear();
+                }
+            }
+        } catch (Exception ex) {
+            Logger.printException(() -> "Failed to hide comment filter bar options", ex);
+        }
+    }
+
+    /**
+     * Injection point.
+     */
+    public static void hideCommentsInfoButton(View view) {
+        if (Settings.HIDE_COMMENTS_INFO_BUTTON.get()) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, 0);
+            view.setLayoutParams(lp);
+            view.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -212,105 +269,6 @@ public class CommentsFilter extends Filter {
                 view.setLayoutParams(lp);
             }
             view.setVisibility(View.GONE);
-        }
-    }
-
-    /**
-     * Injection point.
-     */
-    public static byte[] onCommentsLoaded(byte[] bytes) {
-        if (Settings.HIDE_COMMENTS_CAROUSEL.get() && !commentsCarouselFilterStrings.isEmpty()) {
-            try {
-                var newElement = NewElement.parseFrom(bytes).toBuilder();
-                var identifier = newElement.getProperties().getIdentifierProperties().getIdentifier();
-                if (identifier != null && identifier.contains(VIDEO_METADATA_CAROUSEL_PATH)) {
-                    var type = newElement.getType().toBuilder();
-                    var componentType = type.getComponentType().toBuilder();
-                    var model = componentType.getModel().toBuilder();
-                    var videoMetadataCarouselModel = model.getVideoMetadataCarouselModel().toBuilder();
-                    var data = videoMetadataCarouselModel.getData().toBuilder();
-                    var carouselTitleDatasList = data.getCarouselTitleDatasList();
-
-                    boolean modified = false;
-
-                    for (int i = carouselTitleDatasList.size() - 1; i > -1; i--) {
-                        var carouselTitleData = carouselTitleDatasList.get(i);
-
-                        String title = carouselTitleData.getTitle();
-                        Logger.printDebug(() -> "comments title: " + title);
-
-                        if (title != null) {
-                            for (String filter : commentsCarouselFilterStrings) {
-                                if (title.contains(filter)) {
-                                    data.removeCarouselItemDatas(i);
-                                    data.removeCarouselTitleDatas(i);
-                                    modified = true;
-                                }
-                            }
-                        }
-                    }
-
-                    if (modified) {
-                        var newBuild = data.build();
-                        videoMetadataCarouselModel.clearData();
-                        videoMetadataCarouselModel.setData(newBuild);
-
-                        var newVideoMetadataCarouselModel = videoMetadataCarouselModel.build();
-                        model.clearVideoMetadataCarouselModel();
-                        model.setVideoMetadataCarouselModel(newVideoMetadataCarouselModel);
-
-                        var newModel = model.build();
-                        componentType.clearModel();
-                        componentType.setModel(newModel);
-
-                        var newComponentType = componentType.build();
-                        type.clearComponentType();
-                        type.setComponentType(newComponentType);
-
-                        var newType = type.build();
-                        newElement.clearType();
-                        newElement.setType(newType);
-
-                        return newElement.build().toByteArray();
-                    }
-                }
-            } catch (Exception ex) {
-                Logger.printException(() -> "Failed to parse newElement", ex);
-            }
-        }
-
-        return bytes;
-    }
-
-    /**
-     * Injection point.
-     */
-    public static void hideCommentsInfoButton(View view) {
-        if (Settings.HIDE_COMMENTS_INFO_BUTTON.get()) {
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, 0);
-            view.setLayoutParams(lp);
-            view.setVisibility(View.GONE);
-        }
-    }
-
-    /**
-     * Injection point.
-     */
-    public static void hideCommentsFilterBarOptions(@NonNull String identifier,
-                                                   @NonNull List<Object> treeNodeResultList) {
-        try {
-            if (Settings.HIDE_COMMENTS_FILTER_BAR_OPTIONS.get()
-                    && identifier.startsWith(CHIP_BAR_PATH_PREFIX)
-                    // Playlist sort button uses same components and must only filter if the player is opened.
-                    && PlayerType.getCurrent().isMaximizedOrFullscreen()
-            ) {
-                int treeNodeResultListSize = treeNodeResultList.size();
-                if (treeNodeResultListSize > 2) {
-                    treeNodeResultList.subList(1, treeNodeResultListSize - 1).clear();
-                }
-            }
-        } catch (Exception ex) {
-            Logger.printException(() -> "Failed to hide comment filter bar options", ex);
         }
     }
 
@@ -337,8 +295,25 @@ public class CommentsFilter extends Filter {
     /**
      * Injection point.
      */
+    public static View hideLiveChatTooltip(View anchor) {
+        if (anchor == null || !Settings.HIDE_COMMENTS_LIVE_CHAT_TOOLTIPS.get()) {
+            return anchor;
+        }
+
+        for (ViewParent parent = anchor.getParent(); parent instanceof View view; parent = view.getParent()) {
+            if (view.getId() == ID_LIVE_CHAT_ACTION_PANEL) {
+                return null;
+            }
+        }
+
+        return anchor;
+    }
+
+    /**
+     * Injection point.
+     */
     public static void hideLiveChatEmojiButton(View view) {
-        if (Settings.HIDE_COMMENTS_EMOJI_AND_TIMESTAMP_BUTTONS.get() && view != null) {
+        if (Settings.HIDE_COMMENTS_EMOJI_BUTTON.get() && view != null) {
             ViewGroup.LayoutParams lp = view.getLayoutParams();
             if (lp != null) {
                 lp.width = 0;
@@ -346,22 +321,6 @@ public class CommentsFilter extends Filter {
             }
 
             view.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    /**
-     * Injection point.
-     */
-    public static void hideLiveChatThanksButton(View view) {
-        if (Settings.HIDE_COMMENTS_THANKS_BUTTON.get() && view != null) {
-            ViewGroup.LayoutParams lp = view.getLayoutParams();
-            if (lp != null) {
-                lp.width = 0;
-                lp.height = 0;
-                view.setLayoutParams(lp);
-            }
-
-            view.setVisibility(View.GONE);
         }
     }
 
@@ -387,5 +346,91 @@ public class CommentsFilter extends Filter {
             view.setPadding(0, 0, 0, 0);
             view.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * Injection point.
+     */
+    public static void hideLiveChatThanksButton(View view) {
+        if (Settings.HIDE_COMMENTS_THANKS_BUTTON.get() && view != null) {
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            if (lp != null) {
+                lp.width = 0;
+                lp.height = 0;
+                view.setLayoutParams(lp);
+            }
+
+            view.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * Injection point.
+     */
+    public static byte[] onCommentsLoaded(byte[] bytes) {
+        if (Settings.HIDE_COMMENTS_CAROUSEL.get() && !commentsCarouselFilterStrings.isEmpty()) {
+            try {
+                var newElement = NewElement.parseFrom(bytes).toBuilder();
+                var identifier = newElement.getProperties().getIdentifierProperties().getIdentifier();
+                if (identifier != null && identifier.contains(VIDEO_METADATA_CAROUSEL_PATH)) {
+                    var type = newElement.getType().toBuilder();
+                    var componentType = type.getComponentType().toBuilder();
+                    var model = componentType.getModel().toBuilder();
+                    var videoMetadataCarouselModel = model.getVideoMetadataCarouselModel().toBuilder();
+                    var data = videoMetadataCarouselModel.getData().toBuilder();
+                    var carouselTitleDatasList = data.getCarouselTitleDatasList();
+
+                    if (!carouselTitleDatasList.isEmpty()) {
+                        boolean modified = false;
+
+                        for (int i = carouselTitleDatasList.size() - 1; i > -1; i--) {
+                            var carouselTitleData = carouselTitleDatasList.get(i);
+
+                            String title = carouselTitleData.getTitle();
+                            Logger.printDebug(() -> "comments title: " + title);
+
+                            if (title != null) {
+                                for (String filter : commentsCarouselFilterStrings) {
+                                    if (title.contains(filter)) {
+                                        data.removeCarouselItemDatas(i);
+                                        data.removeCarouselTitleDatas(i);
+                                        modified = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (modified) {
+                            var newBuild = data.build();
+                            videoMetadataCarouselModel.clearData();
+                            videoMetadataCarouselModel.setData(newBuild);
+
+                            var newVideoMetadataCarouselModel = videoMetadataCarouselModel.build();
+                            model.clearVideoMetadataCarouselModel();
+                            model.setVideoMetadataCarouselModel(newVideoMetadataCarouselModel);
+
+                            var newModel = model.build();
+                            componentType.clearModel();
+                            componentType.setModel(newModel);
+
+                            var newComponentType = componentType.build();
+                            type.clearComponentType();
+                            type.setComponentType(newComponentType);
+
+                            var newType = type.build();
+                            newElement.clearType();
+                            newElement.setType(newType);
+
+                            return newElement.build().toByteArray();
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                Logger.printException(() -> "Failed to parse newElement", ex);
+            }
+        }
+
+        return bytes;
     }
 }

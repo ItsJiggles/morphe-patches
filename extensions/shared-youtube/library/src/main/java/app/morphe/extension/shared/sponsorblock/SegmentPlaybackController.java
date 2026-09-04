@@ -8,7 +8,6 @@
 package app.morphe.extension.shared.sponsorblock;
 
 import static app.morphe.extension.shared.StringRef.str;
-import static app.morphe.extension.shared.sponsorblock.objects.CategoryBehaviour.SKIP_AUTOMATICALLY;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -54,6 +53,7 @@ import app.morphe.extension.shared.sponsorblock.objects.CategoryBehaviour;
 import app.morphe.extension.shared.sponsorblock.objects.SegmentCategory;
 import app.morphe.extension.shared.sponsorblock.objects.SponsorSegment;
 import app.morphe.extension.shared.sponsorblock.requests.SBRequester;
+import app.morphe.extension.shared.theme.ThemeUtils;
 import app.morphe.extension.shared.ui.Dim;
 
 /**
@@ -255,7 +255,7 @@ public class SegmentPlaybackController {
         calculateTimeWithoutSegments();
 
         if (config().includesHighlight()
-                && (SegmentCategory.HIGHLIGHT.behaviour == SKIP_AUTOMATICALLY
+                && (SegmentCategory.HIGHLIGHT.behaviour == CategoryBehaviour.SKIP_AUTOMATICALLY
                 || SegmentCategory.HIGHLIGHT.behaviour == CategoryBehaviour.MANUAL_SKIP)) {
             for (SponsorSegment segment : videoSegments) {
                 if (segment.category == SegmentCategory.HIGHLIGHT) {
@@ -952,13 +952,13 @@ public class SegmentPlaybackController {
 
         ShapeDrawable background = new ShapeDrawable(new RoundRectShape(
                 Dim.roundedCorners(20), null, null));
-        background.getPaint().setColor(Utils.getDialogBackgroundColor());
+        background.getPaint().setColor(ThemeUtils.getDialogBackgroundColor());
         mainLayout.setBackground(background);
 
         TextView textView = new TextView(currentContext);
         textView.setText(messageToToast);
         textView.setTextSize(14);
-        textView.setTextColor(Utils.getAppForegroundColor());
+        textView.setTextColor(ThemeUtils.getAppForegroundColor());
         textView.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,

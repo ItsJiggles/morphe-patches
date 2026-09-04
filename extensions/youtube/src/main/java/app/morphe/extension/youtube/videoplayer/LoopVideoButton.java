@@ -11,9 +11,6 @@
 package app.morphe.extension.youtube.videoplayer;
 
 import static app.morphe.extension.shared.StringRef.str;
-import static app.morphe.extension.youtube.patches.LegacyPlayerControlsPatch.RESTORE_OLD_PLAYER_BUTTONS;
-import static app.morphe.extension.youtube.settings.Settings.DO_NOT_REMEMBER_LOOP_VIDEO;
-import static app.morphe.extension.youtube.settings.Settings.LOOP_VIDEO_BUTTON;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -37,8 +34,10 @@ import app.morphe.extension.shared.Logger;
 import app.morphe.extension.shared.ResourceType;
 import app.morphe.extension.shared.ResourceUtils;
 import app.morphe.extension.shared.Utils;
+import app.morphe.extension.shared.theme.ThemeUtils;
 import app.morphe.extension.shared.ui.CustomDialog;
 import app.morphe.extension.shared.ui.Dim;
+import app.morphe.extension.youtube.patches.LegacyPlayerControlsPatch;
 import app.morphe.extension.youtube.patches.LoopVideoPatch;
 import app.morphe.extension.youtube.patches.VideoInformation;
 import app.morphe.extension.youtube.settings.Settings;
@@ -57,17 +56,17 @@ public class LoopVideoButton {
 
     private static final int LOOP_VIDEO_ON = ResourceUtils.getIdentifierOrThrow(
             ResourceType.DRAWABLE,
-            RESTORE_OLD_PLAYER_BUTTONS
+            LegacyPlayerControlsPatch.RESTORE_OLD_PLAYER_BUTTONS
                     ? "morphe_loop_video_button_on"
                     : "morphe_loop_video_button_on_bold");
     private static final int LOOP_VIDEO_OFF = ResourceUtils.getIdentifierOrThrow(
             ResourceType.DRAWABLE,
-            RESTORE_OLD_PLAYER_BUTTONS
+            LegacyPlayerControlsPatch.RESTORE_OLD_PLAYER_BUTTONS
                     ? "morphe_loop_video_button_off"
                     : "morphe_loop_video_button_off_bold");
     private static final int LOOP_VIDEO_RANGE = ResourceUtils.getIdentifierOrThrow(
             ResourceType.DRAWABLE,
-            RESTORE_OLD_PLAYER_BUTTONS
+            LegacyPlayerControlsPatch.RESTORE_OLD_PLAYER_BUTTONS
                     ? "morphe_loop_video_button_range"
                     : "morphe_loop_video_button_range_bold");
     private static final String videoRangeInvalidTimeStringName =
@@ -108,7 +107,7 @@ public class LoopVideoButton {
      * Injection point.
      */
     public static void resetLoopButton() {
-        if (LOOP_VIDEO_BUTTON.get() && DO_NOT_REMEMBER_LOOP_VIDEO.get()) {
+        if (Settings.LOOP_VIDEO_BUTTON.get() && Settings.DO_NOT_REMEMBER_LOOP_VIDEO.get()) {
             setLoopButton(false);
         }
         updateButtonIcon();
@@ -323,7 +322,7 @@ public class LoopVideoButton {
         // Override the DigitsKeyListener that TYPE_CLASS_NUMBER installs — it strips ':',
         // which breaks the TextWatcher colon auto-insertion.
         editText.setKeyListener(android.text.method.DigitsKeyListener.getInstance("0123456789:"));
-        editText.setTextColor(Utils.getAppForegroundColor());
+        editText.setTextColor(ThemeUtils.getAppForegroundColor());
         editText.setHintTextColor(Color.GRAY);
         editText.setBackgroundColor(Color.TRANSPARENT);
         editText.setPadding(0, 0, 0, 0);
@@ -395,7 +394,7 @@ public class LoopVideoButton {
         TextView labelView = new TextView(context);
         labelView.setText(label);
         labelView.setTextSize(13);
-        labelView.setTextColor(Utils.getAppForegroundColor());
+        labelView.setTextColor(ThemeUtils.getAppForegroundColor());
         LinearLayout.LayoutParams labelParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -404,7 +403,7 @@ public class LoopVideoButton {
 
         ShapeDrawable fieldBackground = new ShapeDrawable(new RoundRectShape(
                 Dim.roundedCorners(10), null, null));
-        fieldBackground.getPaint().setColor(Utils.getEditTextBackground());
+        fieldBackground.getPaint().setColor(ThemeUtils.getEditTextBackground());
 
         LinearLayout fieldBox = new LinearLayout(context);
         fieldBox.setBackground(fieldBackground);

@@ -1,11 +1,16 @@
+/*
+ * Copyright 2026 Morphe.
+ * https://github.com/MorpheApp/morphe-patches
+ *
+ * Original hard forked code:
+ * https://github.com/ReVanced/revanced-patches/commit/724e6d61b2ecd868c1a9a37d465a688e83a74799
+ *
+ * See the included NOTICE file for GPLv3 Section 7 terms that apply to Morphe contributions.
+ */
+
 package app.morphe.patches.music.misc.spoof
 
 import app.morphe.patches.music.misc.extension.sharedExtensionPatch
-import app.morphe.patches.music.misc.playservice.is_7_33_or_greater
-import app.morphe.patches.music.misc.playservice.is_8_11_or_greater
-import app.morphe.patches.music.misc.playservice.is_8_15_or_greater
-import app.morphe.patches.music.misc.playservice.is_8_40_or_greater
-import app.morphe.patches.music.misc.playservice.is_9_19_or_greater
 import app.morphe.patches.music.misc.playservice.is_9_24_or_greater
 import app.morphe.patches.music.misc.playservice.versionCheckPatch
 import app.morphe.patches.music.misc.settings.PreferenceScreen
@@ -16,17 +21,18 @@ import app.morphe.patches.shared.misc.settings.preference.ListPreference
 import app.morphe.patches.shared.misc.settings.preference.NonInteractivePreference
 import app.morphe.patches.shared.misc.settings.preference.PreferenceScreenPreference
 import app.morphe.patches.shared.misc.settings.preference.SwitchPreference
-import app.morphe.patches.shared.misc.settings.preference.TextPreference
 import app.morphe.patches.shared.misc.spoof.spoofVideoStreamsPatch
 
 val spoofVideoStreamsPatch = spoofVideoStreamsPatch(
     extensionClass = "Lapp/morphe/extension/music/patches/spoof/SpoofVideoStreamsPatch;",
     mainActivityOnCreateFingerprint = MusicActivityOnCreateFingerprint,
-    fixMediaFetchHotConfigAlternative = { is_8_11_or_greater && !is_8_15_or_greater },
-    fixParsePlaybackResponseFeatureFlag = { is_7_33_or_greater && !is_9_24_or_greater },
-    fixMediaSessionFeatureFlag = { is_8_40_or_greater },
+    // Only 8.11 to 8.14 needed this, and those versions are no longer supported.
+    fixMediaFetchHotConfigAlternative = { false },
+    fixParsePlaybackResponseFeatureFlag = { !is_9_24_or_greater },
+    fixMediaSessionFeatureFlag = { true },
     fixReelItemWatchResponseFeatureFlag = { false },
-    useNewRequestBuilderFingerprint = { is_9_19_or_greater },
+    // Only 8.35 to 9.11 needed this, and those versions are no longer supported.
+    restoreMissingCuepointMethod = { false },
 
     block = {
         dependsOn(
@@ -52,12 +58,6 @@ val spoofVideoStreamsPatch = spoofVideoStreamsPatch(
                         tag = "app.morphe.extension.music.settings.preference.SpoofVideoStreamsSignInPreference",
                         selectable = true,
                     ),
-                    SwitchPreference(
-                        "morphe_spoof_video_streams_disable_player_js_update",
-                        summary = true,
-                        tag = "app.morphe.extension.shared.settings.preference.BulletPointSwitchPreference",
-                    ),
-                    TextPreference("morphe_spoof_video_streams_player_js_hash_value"),
                 )
             )
         )

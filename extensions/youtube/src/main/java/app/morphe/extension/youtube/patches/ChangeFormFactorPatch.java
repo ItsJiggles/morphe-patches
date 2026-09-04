@@ -10,9 +10,6 @@
 
 package app.morphe.extension.youtube.patches;
 
-import static app.morphe.extension.youtube.patches.ChangeFormFactorPatch.FormFactor.LARGE;
-import static app.morphe.extension.youtube.shared.NavigationBar.NavigationButton;
-
 import androidx.annotation.Nullable;
 
 import java.util.List;
@@ -64,13 +61,13 @@ public class ChangeFormFactorPatch {
     @Nullable
     private static final Integer FORM_FACTOR_TYPE = FORM_FACTOR.formFactorType;
     private static final boolean IS_BROKEN_FORM_FACTOR = FORM_FACTOR.isBroken;
-    private static final boolean TABLET_LAYOUT_IN_PLAYER =
-            FORM_FACTOR != LARGE && Settings.TABLET_LAYOUT_IN_PLAYER.get();
+    private static final boolean TABLET_LAYOUT_IN_PLAYER = VersionCheckPatch.IS_20_31_OR_GREATER
+            && FORM_FACTOR != FormFactor.LARGE && Settings.TABLET_LAYOUT_IN_PLAYER.get();
 
     public static final class TabletLayoutInPlayerAvailability implements Setting.Availability {
         @Override
         public boolean isAvailable() {
-            return Settings.CHANGE_FORM_FACTOR.get() != LARGE;
+            return Settings.CHANGE_FORM_FACTOR.get() != FormFactor.LARGE;
         }
 
         @Override
@@ -89,6 +86,7 @@ public class ChangeFormFactorPatch {
         if (FORM_FACTOR_TYPE == null) {
             return original;
         }
+
         if (IS_BROKEN_FORM_FACTOR
                 && !PlayerType.getCurrent().isMaximizedOrFullscreen()
                 && !NavigationBar.isSearchBarActive()) {
@@ -99,9 +97,10 @@ public class ChangeFormFactorPatch {
             if (NavigationBar.isBackButtonVisible()
                     // Do not change library tab otherwise watch history is hidden.
                     // Do this check last since the current navigation button is required.
-                    || NavigationButton.getSelectedNavigationButton() == NavigationButton.LIBRARY) {
+                    || NavigationBar.NavigationButton.getSelectedNavigationButton() ==
+                    NavigationBar.NavigationButton.LIBRARY) {
                 // The form factor most similar to AUTOMOTIVE is LARGE, so it is replaced with LARGE.
-                return Optional.ofNullable(LARGE.formFactorType).orElse(original);
+                return Optional.ofNullable(FormFactor.LARGE.formFactorType).orElse(original);
             }
         }
 
@@ -129,7 +128,7 @@ public class ChangeFormFactorPatch {
     public static int replaceBrokenFormFactor(int original) {
         if (IS_BROKEN_FORM_FACTOR || TABLET_LAYOUT_IN_PLAYER) {
             // The form factor most similar to AUTOMOTIVE is LARGE, so it is replaced with LARGE.
-            return Optional.ofNullable(LARGE.formFactorType).orElse(original);
+            return Optional.ofNullable(FormFactor.LARGE.formFactorType).orElse(original);
         } else {
             return original;
         }
@@ -138,12 +137,12 @@ public class ChangeFormFactorPatch {
     /**
      * Injection point.
      * <p>
-     * This method check whatever the list of player's litho elements is empty, when the tablet
-     * layout setting is set to off but the app is not restarted correctly, by running in
-     * onResume() mode instead of onCreate().
+     * If the form factor is spoofed as a tablet, 'shelfRenderer' is used instead of 'itemSectionRenderer'.
+     * Sometimes the app attempts to parse with 'itemSectionRenderer' instead of 'shelfRenderer', in which case the app crashes.
+     * As a workaround for this, parsing is ignored if an invalid itemSectionRender index is detected.
      * <p>
      **/
-     public static boolean checkPlayerLithoElementsListSize(List<?> list) {
-        return list.isEmpty();
-    }
+     public static boolean checkItemSectionRenderer(List<?> list, int listIndex) {
+         return list != null && !list.isEmpty() && listIndex >= 0 && listIndex < list.size();
+     }
 }
