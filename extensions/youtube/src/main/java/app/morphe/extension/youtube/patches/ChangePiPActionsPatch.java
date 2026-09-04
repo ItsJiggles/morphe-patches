@@ -12,6 +12,7 @@ import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -70,8 +71,7 @@ public class ChangePiPActionsPatch {
 
         Context context = Utils.getContext();
 
-        // theres almost certainly a better way to do this but im not good at java lol, ill fix it at some point probably
-        actionList = Arrays.asList(actionList.get(0), actionList.get(1), actionList.get(2));
+        actionList = new ArrayList<>(actionList);
         for (int i = 0; i < 3; i++) {
             List<String> action = userActionList.get(i);
             // if null, just use the default action
