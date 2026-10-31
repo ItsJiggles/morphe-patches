@@ -1376,4 +1376,24 @@
         <item>SHARP</item>
         <item>CUSTOM</item>
     </string-array>
+
+    <!-- misc.pictureinpicture.ChangePiPActions -->
+    <string-array name="morphe_pip_actions_options">
+        <item>@string/morphe_pip_action_default</item>
+        <item>@string/morphe_pip_action_rewind</item>
+        <item>@string/morphe_pip_action_fastforward</item>
+        <item>@string/morphe_pip_action_previous</item>
+        <item>@string/morphe_pip_action_next</item>
+        <item>@string/morphe_pip_action_background</item>
+        <item>@string/morphe_pip_action_playpause</item>
+    </string-array>
+    <string-array name="morphe_pip_actions_option_values">
+        <item>DEFAULT</item>
+        <item>REWIND</item>
+        <item>FF</item>
+        <item>PREV</item>
+        <item>NEXT</item>
+        <item>BG</item>
+        <item>PLAY</item>
+    </string-array>
 </resources>

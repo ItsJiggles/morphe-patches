@@ -1594,7 +1594,7 @@ Videos are requested by a short prefix of the hashed video ID, so the server can
     <string name="morphe_playback_speed_channel_whitelist_summary">Videos from whitelisted channels always play at 1.0x speed</string>
     <string name="morphe_playback_speed_channel_whitelist_flyout_add">Add channel to speed whitelist</string>
     <string name="morphe_playback_speed_channel_whitelist_flyout_remove">Remove channel from speed whitelist</string>
-    <string name="morphe_enable_playback_audio_pitch_controls_title">Enable audio pitch controls</string> 
+    <string name="morphe_enable_playback_audio_pitch_controls_title">Enable audio pitch controls</string>
     <string name="morphe_playback_audio_pitch_default_title">Default playback audio pitch</string>
     <string name="morphe_remember_playback_audio_pitch_toast">Changed default audio pitch to: %s</string>
     <string name="morphe_playback_audio_time_stretching_title">Audio time stretching</string>
@@ -1836,6 +1836,19 @@ Automatic recording is optional. It stops in incognito or when the account chang
     <string name="morphe_series_tracker_untitled_episode">Untitled episode</string>
     <string name="morphe_series_tracker_unavailable_episode">Unavailable episode</string>
 
+    <!-- misc.pictureinpicture.ChangePiPActions -->
+    <string name="morphe_change_pip_actions_screen_title">Change PiP Actions</string>
+    <string name="morphe_change_pip_actions_screen_summary">Customize the actions in the picture in picture interface</string>
+    <string name="morphe_left_pip_option_title">Left PiP option</string>
+    <string name="morphe_center_pip_option_title">Center PiP option</string>
+    <string name="morphe_right_pip_option_title">Right PiP option</string>
+    <string name="morphe_pip_action_default">Default</string>
+    <string name="morphe_pip_action_rewind">Rewind</string>
+    <string name="morphe_pip_action_fastforward">Fast forward</string>
+    <string name="morphe_pip_action_previous">Previous video</string>
+    <string name="morphe_pip_action_next">Next video</string>
+    <string name="morphe_pip_action_background">Background playback</string>
+    <string name="morphe_pip_action_playpause">Play/pause</string>
     <!-- layout.niconicocomments.niconicoCommentsPatch -->
     <string name="morphe_niconico_comments_screen_title">Niconico comments</string>
     <string name="morphe_niconico_comments_screen_summary">Show live chat and chat replay as comments that scroll across the video</string>
