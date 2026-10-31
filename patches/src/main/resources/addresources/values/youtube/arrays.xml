@@ -1377,23 +1377,23 @@
         <item>CUSTOM</item>
     </string-array>
 
-    <!-- misc.pictureinpicture.ChangePiPActions -->
-    <string-array name="morphe_pip_actions_options">
-        <item>@string/morphe_pip_action_default</item>
-        <item>@string/morphe_pip_action_rewind</item>
-        <item>@string/morphe_pip_action_fastforward</item>
-        <item>@string/morphe_pip_action_previous</item>
-        <item>@string/morphe_pip_action_next</item>
-        <item>@string/morphe_pip_action_background</item>
-        <item>@string/morphe_pip_action_playpause</item>
+    <!-- interaction.pictureinpicture.changePipActionsPatch -->
+    <string-array name="morphe_pip_action_entries">
+        <item>@string/morphe_pip_action_entry_default</item>
+        <item>@string/morphe_pip_action_entry_previous</item>
+        <item>@string/morphe_pip_action_entry_next</item>
+        <item>@string/morphe_pip_action_entry_rewind</item>
+        <item>@string/morphe_pip_action_entry_fast_forward</item>
+        <item>@string/morphe_pip_action_entry_play_pause</item>
+        <item>@string/morphe_pip_action_entry_background_playback</item>
     </string-array>
-    <string-array name="morphe_pip_actions_option_values">
+    <string-array name="morphe_pip_action_entry_values">
         <item>DEFAULT</item>
-        <item>REWIND</item>
-        <item>FF</item>
-        <item>PREV</item>
+        <item>PREVIOUS</item>
         <item>NEXT</item>
-        <item>BG</item>
-        <item>PLAY</item>
+        <item>REWIND</item>
+        <item>FAST_FORWARD</item>
+        <item>PLAY_PAUSE</item>
+        <item>BACKGROUND_PLAYBACK</item>
     </string-array>
 </resources>
