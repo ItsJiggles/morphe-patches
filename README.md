@@ -24,11 +24,11 @@
 &nbsp;
 
 # 🧩 Patches
-Morphe Patches
+Morphe Patches 🛠️
 
 ## ❓ About
 
-Morphe Patches are based off the prior work of [ReVanced](https://github.com/ReVanced).
+🌐 Morphe Patches are based off the prior work of [ReVanced](https://github.com/ReVanced).
 All modifications made by Morphe, along with their dates, can be found in the Git history.
 
 &nbsp;
@@ -202,19 +202,21 @@ All modifications made by Morphe, along with their dates, can be found in the Gi
 
 <!-- PATCHES_END -->
 
-## Contributing
+<a id="contributing"></a>
 
-We currently accept pull requests for fixes/improvements to YouTube, YT Music, and Reddit.
+## 🤝 Contributing
+
+🔹 We currently accept pull requests for fixes/improvements to YouTube, YT Music, and Reddit.
 If you have developed patches for other apps, you are encouraged to release your patches in a third party repository.
 See the [Patches template](https://github.com/morpheapp/morphe-patches-template) for more information.  
 
 ## 📜 License
 
-Morphe Patches are licensed under the [GNU General Public License v3.0](LICENSE), with additional conditions under GPLv3 Section 7:
+📜 Morphe Patches are licensed under the [GNU General Public License v3.0](LICENSE), with additional conditions under GPLv3 Section 7:
 
-- **Attribution (7b):** Any use of this code, including derivatives, must preserve all notices.
+- 🔹 **Attribution (7b):** Any use of this code, including derivatives, must preserve all notices.
   
-- **Name Restriction (7c):** The name **"Morphe"** may not be used for derivative works.  
+- 🔹 **Name Restriction (7c):** The name **"Morphe"** may not be used for derivative works.\
   Derivatives must adopt a distinct identity unrelated to "Morphe".
 
-See the [LICENSE](LICENSE) file for the full GPLv3 terms and the [NOTICE](NOTICE) file for full conditions of GPLv3 Section 7
+📜 See the [LICENSE](LICENSE) file for the full GPLv3 terms and the [NOTICE](NOTICE) file for full conditions of GPLv3 Section 7
